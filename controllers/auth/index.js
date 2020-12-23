@@ -177,6 +177,7 @@ exports.setupClientProfile = (req, res) => {
 // ==================================================== setting up mechanic profile
 exports.setupWorkManProfile = (req, res) => {
   const {
+    id,
     profession,
     qualification,
     extraSkills,
@@ -189,6 +190,8 @@ exports.setupWorkManProfile = (req, res) => {
     client,
     workman,
   } = req.body;
+
+  console.log(req.body);
 };
 
 exports.users = (req, res) => {
