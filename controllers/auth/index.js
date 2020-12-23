@@ -192,7 +192,7 @@ exports.setupWorkManProfile = (req, res) => {
   } = req.body;
 
   console.log(req.body);
-  console.log(req.files);
+  //   console.log(req.files);
 };
 
 exports.users = (req, res) => {
