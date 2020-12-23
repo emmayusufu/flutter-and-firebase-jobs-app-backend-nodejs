@@ -147,13 +147,11 @@ exports.setupClientProfile = (req, res) => {
   );
   const image = dataUri.content;
 
-  console.log(firstName, lastName);
-
   UserModal.findOne({ where: { id: id } })
     .then((user) => {
       if (user) {
         cloudinary.uploader.upload(image, function (error, result) {
-          (user.lastName = firstName),
+          (user.firstName = firstName),
             (user.lastName = lastName),
             (user.dpImage = result.url);
           user.workman = false;
