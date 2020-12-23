@@ -178,21 +178,28 @@ exports.setupClientProfile = (req, res) => {
 exports.setupWorkManProfile = (req, res) => {
   const {
     id,
-    profession,
-    qualification,
-    extraSkills,
-    dob,
     firstName,
     lastName,
     areaOfOperation,
+    dob,
+    qualification,
+    extraSkills,
     nin,
-    userId,
-    client,
-    workman,
+    profession,
   } = req.body;
 
-  console.log(req.body);
-  //   console.log(req.files);
+  console.log(
+    id,
+    firstName,
+    lastName,
+    areaOfOperation,
+    dob,
+    qualification,
+    extraSkills,
+    nin,
+    profession
+  );
+  // console.log(req.files);
 };
 
 exports.users = (req, res) => {
