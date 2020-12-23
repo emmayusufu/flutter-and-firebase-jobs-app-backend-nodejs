@@ -24,7 +24,11 @@ router.post(
   setupClientProfile
 );
 
-router.post("/setup_workman_profile", setupWorkManProfile);
+router.post(
+  "/setup_workman_profile",
+  multer({ storage: multer.memoryStorage() }).array("files", 12),
+  setupWorkManProfile
+);
 
 router.get("/users", users);
 
