@@ -26,7 +26,7 @@ router.post(
 
 router.post(
   "/setup_workman_profile",
-  multer({ storage: multer.memoryStorage() }).array("files", 12),
+  multer({ storage: multer.memoryStorage() }).any(),
   setupWorkManProfile
 );
 
