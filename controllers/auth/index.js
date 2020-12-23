@@ -27,6 +27,15 @@ cloudinary.config({
   api_secret: "H35ClJYKIlPzPSIFKwzi1FEfs60",
 });
 
+function toBase64(file) {
+  const dUri = new Datauri();
+  const dataUri = dUri.format(
+    path.extname(file.originalname).toString(),
+    file.buffer
+  );
+  return dataUri.content;
+}
+
 //  ====================================== controller for handling uer login
 exports.login = (req, res) => {
   const { contact, password } = req.body;
@@ -188,18 +197,32 @@ exports.setupWorkManProfile = (req, res) => {
     profession,
   } = req.body;
 
-  console.log(
-    id,
-    firstName,
-    lastName,
-    areaOfOperation,
-    dob,
-    qualification,
-    extraSkills,
-    nin,
-    profession
-  );
-  // console.log(req.files);
+  const dpImage = req.files.find((e) => e.fieldname == "dpImage");
+  const idBack = req.files.find((e) => e.fieldname == "idBack");
+  const idFront = req.files.find((e) => e.fieldname == "idFront");
+
+  console.log(toBase64(req.files.find((e) => e.fieldname == "dpImage")));
+
+  //   UserModal.findOne({ where: { id: id } })
+  //     .then((user) => {
+  //       if (user) {
+  //         user.firstName = firstName;
+  //         user.lastName = lastName;
+  //         user.areaOfOperation = areaOfOperation;
+  //         user.dob = dob;
+  //         user.qualification = qualification;
+  //         user.extraSkills = extraSkills;
+  //         user.nin = nin;
+  //         user.profession = profession;
+  //         user
+  //           .save()
+  //           .then(() => {})
+  //           .catch((e) => console.log(e));
+  //       } else {
+  //         res.json();
+  //       }
+  //     })
+  //     .catch((e) => console.log(`caught error ${e}`));
 };
 
 exports.users = (req, res) => {
