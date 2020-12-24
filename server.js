@@ -26,7 +26,7 @@ app.use(userRoutes);
 
 (async () => {
   try {
-    await sq.sync();
+    await sq.sync({ force: true });
     server.listen(port, () => {
       console.log(`listening on http://localhost:${port}`);
     });
