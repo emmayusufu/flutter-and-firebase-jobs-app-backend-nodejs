@@ -19,8 +19,6 @@ const sms = ogenzoWidgets.sms;
 // ============================================ cloudinary
 const cloudinary = require("cloudinary").v2;
 const Datauri = require("datauri/parser");
-const User = require("../../modals/user");
-
 cloudinary.config({
   cloud_name: "workman",
   api_key: "514111897351468",
@@ -248,7 +246,7 @@ exports.setupWorkManProfile = (req, res) => {
 };
 
 exports.users = (req, res) => {
-  User.findAll()
+  UserModal.findAll()
     .then((users) => {
       res.json(users);
     })
