@@ -82,6 +82,14 @@ const User = sequelize.define("user", {
     type: DataTypes.BOOLEAN,
     allowNull: true,
   },
+  rating: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  starting_fee: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 module.exports = User;
