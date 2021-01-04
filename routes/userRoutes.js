@@ -1,8 +1,9 @@
 const express = require("express");
 const multer = require("multer");
 
-const router = express.Router();
+const router = express.Router(); // initializing the express router
 
+// ================================================== importing authentication controllers
 const {
   login,
   register,
@@ -13,8 +14,10 @@ const {
   allWorkmen,
 } = require("../controllers/auth");
 
+// ================================================== importing hire controllers
 const { hireWorkMan } = require("../controllers/hire");
 
+// ================================================== importing job controllers
 const { getUserJobs } = require("../controllers/job");
 
 // ================================================== end point for registering users
@@ -47,9 +50,9 @@ router.get("/workmen", allWorkmen);
 router.get("/clients", allClients);
 
 // ================================================== end point for hiring workman
-router.get("/hire/:id", hireWorkMan);
+router.get("/hire/:workmanID", hireWorkMan);
 
 // ================================================== end point for getting a users jobs
 router.get("/jobs/:id", getUserJobs);
 
-module.exports = router;
+module.exports = router; // exporting the express router

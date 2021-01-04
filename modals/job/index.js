@@ -24,6 +24,14 @@ const Job = sequelize.define("job", {
   },
   completed: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  workmanID: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  clientID: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
 });

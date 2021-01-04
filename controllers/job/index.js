@@ -1,4 +1,4 @@
-const JobModal = require("../../modals/job");
+const { JobModal } = require("../../modals");
 
 exports.getUserJobs = (req, res) => {
   const { id } = req.params;

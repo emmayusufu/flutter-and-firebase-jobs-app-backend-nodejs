@@ -1,4 +1,4 @@
-const UserModal = require("../../modals/user");
+const { UserModal } = require("../../modals");
 
 exports.login = ({ res, contact, password }) => {
   UserModal.findOne({ where: { contact: contact } })

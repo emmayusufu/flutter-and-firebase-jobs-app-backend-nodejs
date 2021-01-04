@@ -1,4 +1,4 @@
-const UserModal = require("../../modals/user");
+const { UserModal } = require("../../modals");
 
 exports.verifyOTP = ({ otp, contact, res }) => {
   UserModal.findOne({ where: { contact: contact } })

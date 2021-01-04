@@ -1,4 +1,4 @@
-const UserModal = require("../../modals/user");
+const { UserModal } = require("../../modals");
 
 const { login } = require("./login");
 const { verifyOTP } = require("./verify_otp");

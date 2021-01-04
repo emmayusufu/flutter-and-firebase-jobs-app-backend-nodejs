@@ -1,10 +1,16 @@
-const UserModal = require("../../modals/user");
-const JobModal = require("../../modals/job");
+const { UserModal, JobModal } = require("../../modals");
 
 exports.hireWorkMan = (req, res) => {
-  const { id } = req.params;
+  const { workmanID } = req.params;
+  const { clientID, description } = req.body;
 
   UserModal.findOne({ where: { id: id } })
-    .then((user) => {})
-    .catch((e) => console.log(e));
+    .then((user) => {
+      JobModal.create({
+        description,
+        clientID,
+        workmanID,
+      }).catch((e) => console.log(`caught error ${e} while creating job`));
+    })
+    .catch((e) => console.log(`caught error ${e} while finding user`));
 };

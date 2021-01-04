@@ -1,4 +1,4 @@
-const UserModal = require("../../modals/user");
+const { UserModal } = require("../../modals");
 const { cloudinary } = require("../../utilities/cloudinary");
 
 exports.setupWorkManProfile = ({
