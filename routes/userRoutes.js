@@ -13,6 +13,10 @@ const {
   allWorkmen,
 } = require("../controllers/auth");
 
+const { hireWorkMan } = require("../controllers/hire");
+
+const { getUserJobs } = require("../controllers/job");
+
 // ================================================== end point for registering users
 router.post("/register", register);
 
@@ -42,6 +46,10 @@ router.get("/workmen", allWorkmen);
 // ================================================== end point for getting all the clients
 router.get("/clients", allClients);
 
-// router.get('/userP')
+// ================================================== end point for hiring workman
+router.get("/hire/:id", hireWorkMan);
+
+// ================================================== end point for getting a users jobs
+router.get("/jobs/:id", getUserJobs);
 
 module.exports = router;
