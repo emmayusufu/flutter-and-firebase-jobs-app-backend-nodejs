@@ -7,30 +7,32 @@ const { setupClientProfile } = require("./setup_client_profile");
 const { setupWorkManProfile } = require("./setup_workman_profile");
 const { toBase64 } = require("../../utilities/helper-functions");
 
+const { auth } = require("../../utilities/firebase/admin_config");
+
 //  ====================================== controller for handling uer login
 exports.login = (req, res) => {
-  const { contact, password } = req.body;
-  login({ res, contact, password });
+  const { phoneNumber, password } = req.body;
+  login({ res, phoneNumber, password });
 };
 
 // ==================================================== registering account
 exports.register = (req, res) => {
-  const { email, contact, password } = req.body;
-  register({ contact, email, password, res });
+  const { email, phoneNumber, password } = req.body;
+  register({ phoneNumber, email, password, res });
 };
 
 // ==================================================== verifying otp
 exports.verifyOtp = (req, res) => {
-  const { otp, contact } = req.body;
-  verifyOTP({ otp, contact, res });
+  const { otp, phoneNumber } = req.body;
+  verifyOTP({ otp, phoneNumber, res });
 };
 
 // ==================================================== setting up client profile
 exports.setupClientProfile = (req, res) => {
   const { id, firstName, lastName } = req.body;
-  const image = toBase64(req.file);
+  // const image = toBase64(req.file);
 
-  setupClientProfile({ firstName, id, image, lastName, res });
+  setupClientProfile({ firstName, id, image: req.file, lastName, res });
 };
 
 // ==================================================== setting up mechanic profile
@@ -69,11 +71,20 @@ exports.setupWorkManProfile = (req, res) => {
 };
 
 exports.allClients = (req, res) => {
-  UserModal.findAll({ where: { client: true } })
+  // UserModal.findAll({ where: { client: true } })
+  //   .then((users) => {
+  //     res.json(users);
+  //   })
+  //   .catch((e) => console.log(`caught error ${e} while getting all users`));
+
+  auth
+    .listUsers()
     .then((users) => {
       res.json(users);
     })
-    .catch((e) => console.log(`caught error ${e} while getting all users`));
+    .catch((error) => {
+      console.log("Error fetching user data:", error);
+    });
 };
 
 exports.allWorkmen = (req, res) => {

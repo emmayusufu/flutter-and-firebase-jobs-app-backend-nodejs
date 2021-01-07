@@ -7,7 +7,7 @@
     "start": "nodejs server.js",
     "dev": "nodemon server.js"
   },
-  "author": "",
+  "author": "Kimaswa Emmanuel Yususfu",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
@@ -18,11 +18,12 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "firebase": "^8.2.1",
+    "firebase-admin": "^9.4.2",
     "multer": "^1.4.2",
     "mysql2": "^2.2.5",
     "ogenzo-widgets": "^1.0.3",
     "sequelize": "^6.3.5",
-    "socket.io": "^3.0.4"
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

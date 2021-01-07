@@ -1,5 +1,6 @@
 const path = require("path");
 const Datauri = require("datauri/parser");
+const { bucket } = require("../firebase/admin_config");
 
 exports.generateOtp = (length) => {
   var result = "";
@@ -18,4 +19,18 @@ exports.toBase64 = (file) => {
     file.buffer
   );
   return dataUri.content;
+};
+
+exports.getImageUrl = async function (image) {
+  const bucketFile = bucket.file(image.originalname);
+  await bucketFile.save(image.buffer, {
+    contentType: image.mimetype,
+    gzip: true,
+  });
+
+  const [url] = await bucketFile.getSignedUrl({
+    action: "read",
+    expires: "01-01-2050",
+  });
+  return url;
 };
