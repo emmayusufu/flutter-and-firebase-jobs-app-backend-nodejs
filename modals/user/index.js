@@ -16,8 +16,10 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   otp: String,
-  account_valid: String,
-  dob: String,
+  account_valid: {
+    type: Boolean,
+    default: false,
+  },
   profession: String,
   qualification: String,
   extraSkills: String,
@@ -26,8 +28,14 @@ const userSchema = new mongoose.Schema({
   dpImage: String,
   idFront: String,
   idBack: String,
-  client: String,
-  workman: String,
+  client: {
+    type: Boolean,
+    default: false,
+  },
+  workman: {
+    type: Boolean,
+    default: false,
+  },
   rating: String,
   starting_fee: String,
 });

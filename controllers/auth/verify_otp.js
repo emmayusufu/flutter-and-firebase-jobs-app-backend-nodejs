@@ -1,6 +1,4 @@
-// const { UserModal } = require("../../modals");
-
-const { auth } = require("../../utilities/firebase/admin_config");
+const { UserModal } = require("../../modals");
 
 exports.verifyOTP = ({ otp, phoneNumber, res }) => {
   UserModal.findOne({ phoneNumber: phoneNumber }, function (err, user) {
@@ -9,12 +7,16 @@ exports.verifyOTP = ({ otp, phoneNumber, res }) => {
     } else if (!err) {
       if (user) {
         if (otp == user.otp) {
-          user.account_valid = true;
-          user.save();
-          res.json({
-            message: "success",
-            id: user.id,
-          });
+          UserModal.updateOne(
+            { _id: user._id },
+            { account_valid: true },
+            function (err, user2) {
+              res.json({
+                message: "success",
+                id: user._id,
+              });
+            }
+          );
         } else {
           res.json({ message: "wrong_otp" });
         }

@@ -71,30 +71,23 @@ exports.setupWorkManProfile = (req, res) => {
 };
 
 exports.allClients = (req, res) => {
-  auth
-    .listUsers()
-    .then((users) => {
-      const promises = users.map((obj) => {
-        return db
-          .collection("users")
-          .doc(obj.uid)
-          .get()
-          .then((e) => {
-            return e;
-          });
-      });
-
-      console.log(Promise.all(promises));
-    })
-    .catch((error) => {
-      console.log("Error fetching user data:", error);
-    });
+  UserModal.find({ client: true }, function (err, clients) {
+    if (err) {
+      console.log(err);
+      res.json({ message: `caught error:${err}` });
+    } else if (!err) {
+      res.json(clients);
+    }
+  });
 };
 
 exports.allWorkmen = (req, res) => {
-  UserModal.findAll({ where: { workman: true } })
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((e) => console.log(`caught error ${e} while getting all users`));
+  UserModal.find({ workman: true }, function (err, workmen) {
+    if (err) {
+      console.log(err);
+      res.json({ message: `caught error:${err}` });
+    } else if (!err) {
+      res.json(workmen);
+    }
+  });
 };
