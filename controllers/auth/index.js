@@ -47,11 +47,9 @@ exports.setupWorkManProfile = (req, res) => {
     profession,
   } = req.body;
 
-  const dpImage = toBase64(req.files.find((e) => e.fieldname == "dpImage"));
-  const idBack = toBase64(req.files.find((e) => e.fieldname == "idBack"));
-  const idFront = toBase64(req.files.find((e) => e.fieldname == "idFront"));
-
-  console.log(req.body);
+  const dpImage = req.files.find((e) => e.fieldname == "dpImage");
+  const idBack = req.files.find((e) => e.fieldname == "idBack");
+  const idFront = req.files.find((e) => e.fieldname == "idFront");
 
   setupWorkManProfile({
     id,

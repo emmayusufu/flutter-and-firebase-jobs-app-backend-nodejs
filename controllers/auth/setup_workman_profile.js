@@ -27,9 +27,15 @@ exports.setupWorkManProfile = async ({
       extraSkills,
       nin,
       profession,
-      dpImage: await getImageUrl(dpImage),
-      idFront: await getImageUrl(idFront),
-      idBack: await getImageUrl(idBack),
+      dpImage: await getImageUrl(dpImage).catch((e) => {
+        console.log(`caught error :${e} while storing dpimage`);
+      }),
+      idFront: await getImageUrl(idFront).catch((e) => {
+        console.log(`caught error :${e} while storing idfront image`);
+      }),
+      idBack: await getImageUrl(idBack).catch((e) => {
+        console.log(`caught error :${e} while storing id back image`);
+      }),
       workman: true,
     },
     function (err, user) {
