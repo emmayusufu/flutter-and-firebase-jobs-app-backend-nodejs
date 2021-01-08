@@ -45,17 +45,9 @@ io.on("connection", (socket) => {
 
 // ============================using the imported routes
 app.use(userRoutes);
-
-// (async () => {
-//   try {
-//     await sq.sync();
-//     server.listen(port, () => {
-//       console.log(`listening on http://localhost:${port}`);
-//     });
-//   } catch (error) {
-//     console.error("Unable to connect to the database:", error);
-//   }
-// })();
+app.get("/", (req, res) => {
+  res.send("Home");
+});
 
 mongoose
   .connect(
