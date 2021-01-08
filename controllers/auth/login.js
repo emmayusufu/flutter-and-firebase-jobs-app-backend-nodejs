@@ -1,8 +1,11 @@
 const { UserModal } = require("../../modals");
+const bcrypt = require("bcrypt");
 
-exports.login = ({ res, contact, password }) => {
-  UserModal.findOne({ where: { contact: contact } })
-    .then((user) => {
+exports.login = ({ res, phoneNumber, password }) => {
+  UserModal.findOne({ phoneNumber: phoneNumber }, function (err, user) {
+    if (err) {
+      console.log(`caught error ${err}`);
+    } else if (!err) {
       if (user) {
         bcrypt.compare(password, user.password, function (err, result) {
           if (result) {
@@ -17,10 +20,29 @@ exports.login = ({ res, contact, password }) => {
           }
         });
       } else if (!user) {
-        res.json({ message: "contact_not_registered" });
+        res.json({ message: "phoneNumber_not_registered" });
       }
-    })
-    .catch((e) => {
-      console.log(`caught error ${e}`);
-    });
+    }
+  });
+  // .then((user) => {
+  //   if (user) {
+  //     bcrypt.compare(password, user.password, function (err, result) {
+  //       if (result) {
+  //         if (user.account_valid) {
+  //           res.json({
+  //             message: "success",
+  //             user: user,
+  //           });
+  //         } else res.json({ message: "account_not_valid" });
+  //       } else {
+  //         res.json({ message: "wrong_password" });
+  //       }
+  //     });
+  //   } else if (!user) {
+  //     res.json({ message: "phoneNumber_not_registered" });
+  //   }
+  // })
+  // .catch((e) => {
+  //   console.log(`caught error ${e}`);
+  // });
 };

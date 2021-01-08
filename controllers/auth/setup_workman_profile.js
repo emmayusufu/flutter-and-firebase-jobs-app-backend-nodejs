@@ -25,7 +25,7 @@ exports.setupWorkManProfile = async ({
       photoURL: await getImageUrl(dpImage),
     })
     .then(async (userRecord) => {
-      db.collection("workmen")
+      db.collection("userDetails")
         .doc(id)
         .set({
           areaOfOperation,

@@ -1,99 +1,35 @@
-const { DataTypes } = require("sequelize");
+const mongoose = require("mongoose");
 
-const sequelize = require("../../utilities/db-config");
-
-const User = sequelize.define("user", {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV1,
-    primaryKey: true,
-    allowNull: false,
-    unique: true,
-  },
-  firstName: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  lastName: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  contact: {
-    type: DataTypes.STRING,
-    allowNull: false,
+const userSchema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
+  phoneNumber: {
+    type: String,
+    required: true,
   },
   email: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   password: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    type: String,
+    required: true,
   },
-  otp: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  account_valid: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-  dob: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  profession: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  qualification: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  extraSkills: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  areaOfOperation: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  nin: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  dpImage: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  idFront: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  idBack: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  client: {
-    type: DataTypes.BOOLEAN,
-    allowNull: true,
-  },
-  workman: {
-    type: DataTypes.BOOLEAN,
-    allowNull: true,
-  },
-  rating: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
-  starting_fee: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  socket_id: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+  otp: String,
+  account_valid: String,
+  dob: String,
+  profession: String,
+  qualification: String,
+  extraSkills: String,
+  areaOfOperation: String,
+  nin: String,
+  dpImage: String,
+  idFront: String,
+  idBack: String,
+  client: String,
+  workman: String,
+  rating: String,
+  starting_fee: String,
 });
 
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);

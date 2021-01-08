@@ -7,7 +7,7 @@ const { setupClientProfile } = require("./setup_client_profile");
 const { setupWorkManProfile } = require("./setup_workman_profile");
 const { toBase64 } = require("../../utilities/helper-functions");
 
-const { auth } = require("../../utilities/firebase/admin_config");
+const { auth, db } = require("../../utilities/firebase/admin_config");
 
 //  ====================================== controller for handling uer login
 exports.login = (req, res) => {
@@ -71,16 +71,20 @@ exports.setupWorkManProfile = (req, res) => {
 };
 
 exports.allClients = (req, res) => {
-  // UserModal.findAll({ where: { client: true } })
-  //   .then((users) => {
-  //     res.json(users);
-  //   })
-  //   .catch((e) => console.log(`caught error ${e} while getting all users`));
-
   auth
     .listUsers()
     .then((users) => {
-      res.json(users);
+      const promises = users.map((obj) => {
+        return db
+          .collection("users")
+          .doc(obj.uid)
+          .get()
+          .then((e) => {
+            return e;
+          });
+      });
+
+      console.log(Promise.all(promises));
     })
     .catch((error) => {
       console.log("Error fetching user data:", error);

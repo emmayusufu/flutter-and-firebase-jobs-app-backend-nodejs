@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 const app = express();
 const server = http.createServer(app);
@@ -56,6 +57,16 @@ app.use(userRoutes);
 //   }
 // })();
 
-server.listen(port, () => {
-  console.log(`listening on http://localhost:${port}`);
-});
+mongoose
+  .connect(
+    "mongodb+srv://emmajoe:240063@workman.vxspb.mongodb.net/workman?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`listening on http://localhost:${port}`);
+    });
+  })
+  .catch((e) => {
+    console.log(`caught error: ${e} when connecting to mongodb sever`);
+  });
