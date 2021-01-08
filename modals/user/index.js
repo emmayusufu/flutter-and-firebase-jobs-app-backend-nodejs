@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema({
   qualification: String,
   extraSkills: String,
   areaOfOperation: String,
+  dob: String,
   nin: String,
   dpImage: String,
   idFront: String,
@@ -35,6 +36,9 @@ const userSchema = new mongoose.Schema({
   workman: {
     type: Boolean,
     default: false,
+  },
+  online: {
+    type: Boolean,
   },
   rating: String,
   starting_fee: String,

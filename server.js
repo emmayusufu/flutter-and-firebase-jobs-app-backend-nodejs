@@ -9,15 +9,13 @@ const server = http.createServer(app);
 const bodyParser = require("body-parser");
 const port = process.env.PORT;
 
-// const sq = require("./utilities/db-config");
-
+app.use(cors());
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
 app.use(bodyParser.json());
-app.use(cors());
 
 // =============================importing routes
 const userRoutes = require("./routes/userRoutes");

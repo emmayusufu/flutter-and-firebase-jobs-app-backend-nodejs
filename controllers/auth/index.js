@@ -5,9 +5,7 @@ const { verifyOTP } = require("./verify_otp");
 const { register } = require("./register");
 const { setupClientProfile } = require("./setup_client_profile");
 const { setupWorkManProfile } = require("./setup_workman_profile");
-const { toBase64 } = require("../../utilities/helper-functions");
-
-const { auth, db } = require("../../utilities/firebase/admin_config");
+const { toBase64, getImageUrl } = require("../../utilities/helper-functions");
 
 //  ====================================== controller for handling uer login
 exports.login = (req, res) => {
@@ -53,6 +51,8 @@ exports.setupWorkManProfile = (req, res) => {
   const idBack = toBase64(req.files.find((e) => e.fieldname == "idBack"));
   const idFront = toBase64(req.files.find((e) => e.fieldname == "idFront"));
 
+  console.log(req.body);
+
   setupWorkManProfile({
     id,
     firstName,
@@ -90,4 +90,78 @@ exports.allWorkmen = (req, res) => {
       res.json(workmen);
     }
   });
+};
+
+exports.updateAccountToWorkMan = async (req, res) => {
+  const id = req.params;
+  const {
+    areaOfOperation,
+    dob,
+    qualification,
+    extraSkills,
+    nin,
+    profession,
+    idFront,
+    idBack,
+  } = req.body;
+  UserModal.findOneAndUpdate(
+    { _id: id },
+    {
+      firstName,
+      lastName,
+      areaOfOperation,
+      dob,
+      qualification,
+      extraSkills,
+      nin,
+      profession,
+      idFront: await getImageUrl(idFront),
+      idBack: await getImageUrl(idBack),
+      workman: true,
+      client: false,
+    },
+    { new: true },
+    function (err, result) {
+      if (err) console.log(err);
+      res.json(result);
+    }
+  );
+};
+
+exports.updateAccountToClient = async (req, res) => {
+  const id = req.params;
+  const {
+    areaOfOperation,
+    dob,
+    qualification,
+    extraSkills,
+    nin,
+    profession,
+    idFront,
+    idBack,
+    client,
+    workman,
+  } = req.body;
+  UserModal.findOneAndUpdate(
+    { _id: id },
+    {
+      firstName,
+      lastName,
+      areaOfOperation,
+      dob,
+      qualification,
+      extraSkills,
+      nin,
+      profession,
+      idFront: await getImageUrl(idFront),
+      idBack: await getImageUrl(idBack),
+      workman: JSON.parse(workman),
+      client: JSON.parse(client),
+    },
+    { new: true },
+    function (err, result) {
+      if (err) console.log(err);
+      res.json(result);
+    }
+  );
 };
