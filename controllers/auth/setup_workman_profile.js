@@ -19,6 +19,7 @@ exports.setupWorkManProfile = async ({
 }) => {
   UserModal.updateOne(
     { _id: id },
+
     {
       firstName,
       lastName,
@@ -41,8 +42,10 @@ exports.setupWorkManProfile = async ({
       workman: true,
     },
     function (err, user) {
+      if (err) console.log(err);
       res.json({
         message: "success",
+        user,
       });
     }
   );
