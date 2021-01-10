@@ -46,6 +46,7 @@ exports.setupWorkManProfile = (req, res) => {
     nin,
     profession,
     aboutSelf,
+    startingFee,
   } = req.body;
 
   const dpImage = req.files.find((e) => e.fieldname == "dpImage");
@@ -66,6 +67,7 @@ exports.setupWorkManProfile = (req, res) => {
     idBack,
     idFront,
     aboutSelf,
+    startingFee,
     res,
   });
 };

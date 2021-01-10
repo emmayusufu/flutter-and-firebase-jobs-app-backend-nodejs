@@ -57,36 +57,17 @@ io.on("connection", (socket) => {
 
   socket.on("location", (data) => {
     //=========================================================  fetching all mechanics' locations from firestore
-    rtd
-      .ref("/user_locations/" + data.id)
-      .once("value")
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          rtd.ref("/user_locations/" + data.id).update(
-            {
-              latitude: data.latitude,
-              longitude: data.longitude,
-            },
-            (error) => {
-              if (error) {
-                console.log(`The update failed because of error ${error}`);
-              }
-            }
-          );
-        } else {
-          rtd.ref("/user_locations/" + data.id).set(
-            {
-              latitude: data.latitude,
-              longitude: data.longitude,
-            },
-            (error) => {
-              if (error) {
-                console.log(`The write failed because of error ${error}`);
-              }
-            }
-          );
+    rtd.ref("/user_locations/" + data.id).set(
+      {
+        latitude: data.latitude,
+        longitude: data.longitude,
+      },
+      (error) => {
+        if (error) {
+          console.log(`The write failed because of error ${error}`);
         }
-      });
+      }
+    );
   });
 });
 

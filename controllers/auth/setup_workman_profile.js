@@ -15,6 +15,7 @@ exports.setupWorkManProfile = async ({
   idFront,
   idBack,
   aboutSelf,
+  startingFee,
   res,
 }) => {
   UserModal.updateOne(
@@ -30,6 +31,7 @@ exports.setupWorkManProfile = async ({
       nin,
       profession,
       aboutSelf,
+      startingFee,
       dpImage: await getImageUrl(dpImage).catch((e) => {
         console.log(`caught error :${e} while storing dpimage`);
       }),
