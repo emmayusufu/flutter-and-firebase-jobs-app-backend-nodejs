@@ -11,14 +11,14 @@ exports.setupWorkManProfile = async ({
   extraSkills,
   nin,
   profession,
+  aboutSelf,
+  startingFee,
   dpImage,
   idFront,
   idBack,
-  aboutSelf,
-  startingFee,
   res,
 }) => {
-  UserModal.updateOne(
+  UserModal.findOneAndUpdate(
     { _id: id },
 
     {
@@ -43,6 +43,7 @@ exports.setupWorkManProfile = async ({
       }),
       workman: true,
     },
+    { new: true, useFindAndModify: false },
     function (err, user) {
       if (err) console.log(err);
       res.json({

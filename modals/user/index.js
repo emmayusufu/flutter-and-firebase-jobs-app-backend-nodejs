@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   profession: String,
-  about: String,
+  aboutSelf: String,
   qualification: String,
   extraSkills: String,
   areaOfOperation: String,
@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  starting_fee: String,
+  startingFee: String,
   job: [],
 });
 

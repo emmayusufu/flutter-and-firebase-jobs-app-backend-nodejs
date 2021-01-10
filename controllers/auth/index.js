@@ -122,7 +122,7 @@ exports.updateAccountToWorkMan = async (req, res) => {
       workman: true,
       client: false,
     },
-    { new: true },
+    { new: true, useFindAndModify: false },
     function (err, result) {
       if (err) console.log(err);
       res.json(result);
