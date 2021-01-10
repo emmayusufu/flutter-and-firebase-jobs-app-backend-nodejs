@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   profession: String,
+  about: String,
   qualification: String,
   extraSkills: String,
   areaOfOperation: String,
@@ -40,8 +41,12 @@ const userSchema = new mongoose.Schema({
   online: {
     type: Boolean,
   },
-  rating: String,
+  rating: {
+    type: Number,
+    default: 0,
+  },
   starting_fee: String,
+  job: [],
 });
 
 module.exports = mongoose.model("User", userSchema);

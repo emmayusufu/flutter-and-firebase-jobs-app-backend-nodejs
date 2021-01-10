@@ -19,6 +19,8 @@ app.use(bodyParser.json());
 
 // =============================importing routes
 const userRoutes = require("./routes/userRoutes");
+const { rtd } = require("./utilities/firebase/admin_config");
+const { UserModal } = require("./modals");
 
 const io = require("./utilities/socketio").init(server);
 
@@ -27,17 +29,64 @@ io.on("connection", (socket) => {
   const user = JSON.parse(socket.handshake.headers.user);
   // ========================= runs when a user connects =========================
   if (user) {
-    console.log("a user connected");
+    UserModal.updateOne(
+      { _id: user.id },
+      { online: true },
+      function (err, user2) {
+        console.log(`user with id:${user.id} is now online`);
+      }
+    );
   } else {
     console.log("an unknown user connected");
   }
   // ========================= runs when a user disconnects =========================
   socket.on("disconnect", (data) => {
     if (user) {
-      console.log("a user disconnected");
+      UserModal.updateOne(
+        { _id: user.id },
+        { online: false },
+        function (err, user2) {
+          console.log(`user with id:${user.id} is now offline`);
+        }
+      );
     } else {
       console.log("an unknown user disconnected");
     }
+  });
+  // ============================================ listening to user locations
+
+  socket.on("location", (data) => {
+    //=========================================================  fetching all mechanics' locations from firestore
+    rtd
+      .ref("/user_locations/" + data.id)
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          rtd.ref("/user_locations/" + data.id).update(
+            {
+              latitude: data.latitude,
+              longitude: data.longitude,
+            },
+            (error) => {
+              if (error) {
+                console.log(`The update failed because of error ${error}`);
+              }
+            }
+          );
+        } else {
+          rtd.ref("/user_locations/" + data.id).set(
+            {
+              latitude: data.latitude,
+              longitude: data.longitude,
+            },
+            (error) => {
+              if (error) {
+                console.log(`The write failed because of error ${error}`);
+              }
+            }
+          );
+        }
+      });
   });
 });
 

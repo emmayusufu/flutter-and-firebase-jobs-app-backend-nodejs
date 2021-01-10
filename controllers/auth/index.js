@@ -5,7 +5,7 @@ const { verifyOTP } = require("./verify_otp");
 const { register } = require("./register");
 const { setupClientProfile } = require("./setup_client_profile");
 const { setupWorkManProfile } = require("./setup_workman_profile");
-const { toBase64, getImageUrl } = require("../../utilities/helper-functions");
+const { getImageUrl } = require("../../utilities/helper-functions");
 
 //  ====================================== controller for handling uer login
 exports.login = (req, res) => {
@@ -45,6 +45,7 @@ exports.setupWorkManProfile = (req, res) => {
     extraSkills,
     nin,
     profession,
+    aboutSelf,
   } = req.body;
 
   const dpImage = req.files.find((e) => e.fieldname == "dpImage");
@@ -64,6 +65,7 @@ exports.setupWorkManProfile = (req, res) => {
     dpImage,
     idBack,
     idFront,
+    aboutSelf,
     res,
   });
 };
