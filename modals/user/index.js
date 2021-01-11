@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   profession: String,
   aboutSelf: String,
-  qualification: String,
+  specialities: String,
   extraSkills: String,
   areaOfOperation: String,
   dob: String,
@@ -46,7 +46,6 @@ const userSchema = new mongoose.Schema({
     default: 0,
   },
   startingFee: String,
-  job: [],
 });
 
 module.exports = mongoose.model("User", userSchema);
