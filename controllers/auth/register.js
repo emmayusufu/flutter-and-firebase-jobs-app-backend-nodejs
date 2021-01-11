@@ -1,7 +1,7 @@
 const { UserModal } = require("../../modals");
 const { generateOtp } = require("../../utilities/helper-functions");
 const bcrypt = require("bcrypt");
-const { sms } = require("../../utilities/sms");
+const { sms } = require("../../utilities/africastalking");
 
 exports.register = ({ email, phoneNumber, password, res }) => {
   UserModal.findOne(
@@ -32,14 +32,19 @@ exports.register = ({ email, phoneNumber, password, res }) => {
                   return result;
                 })
                 .then((result2) => {
-                  const number = "0" + result2.phoneNumber.substring(4);
+                  const number = result2.phoneNumber;
+                  const options = {
+                    to: [number],
+                    message: `Enter : ${result2.otp} to verify your WorkManNow Account`,
+                  };
+
                   sms
-                    .sendSMS(
-                      number,
-                      `Enter : ${result2.otp} to verify your WorkManNow Account`
-                    )
-                    .catch((e) => {
-                      console.log(`caught error ${e} while sending sms`);
+                    .send(options)
+                    .then((response) => {
+                      res.json();
+                    })
+                    .catch((error) => {
+                      console.log(error);
                     });
                 })
                 .catch((e) => {

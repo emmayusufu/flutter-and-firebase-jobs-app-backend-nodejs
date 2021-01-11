@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 const userRoutes = require("./routes/userRoutes");
 const { rtd } = require("./utilities/firebase/admin_config");
 const { UserModal } = require("./modals");
+const { sms } = require("./utilities/africastalking");
 
 const io = require("./utilities/socketio").init(server);
 
@@ -74,7 +75,25 @@ io.on("connection", (socket) => {
 // ============================using the imported routes
 app.use(userRoutes);
 app.get("/", (req, res) => {
-  res.send("Home");
+  res.send("200");
+});
+
+app.post("/test", (req, res) => {
+  // Use the service
+  const options = {
+    to: ["+256780784870"],
+    message: "testing success",
+  };
+
+  // Send message and capture the response or error
+  sms
+    .send(options)
+    .then((response) => {
+      res.json();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 mongoose
