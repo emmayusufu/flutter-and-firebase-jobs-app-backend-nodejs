@@ -12,6 +12,7 @@ const {
   setupWorkManProfile,
   allClients,
   allWorkmen,
+  updateAccount,
 } = require("../controllers/auth");
 
 // ================================================== importing hire controllers
@@ -55,4 +56,6 @@ router.get("/hire/:workmanID", hireWorkMan);
 // ================================================== end point for getting a users jobs
 router.get("/jobs/:id", getUserJobs);
 
+router.post("/updateProfile/:id");
+updateAccount;
 module.exports = router; // exporting the express router

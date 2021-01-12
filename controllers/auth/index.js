@@ -95,7 +95,7 @@ exports.allWorkmen = (req, res) => {
 };
 
 exports.updateAccount = async (req, res) => {
-  const id = req.params;
+  const { id } = req.params;
   const {
     areaOfOperation,
     dob,
