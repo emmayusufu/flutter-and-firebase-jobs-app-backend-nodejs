@@ -56,6 +56,10 @@ router.get("/hire/:workmanID", hireWorkMan);
 // ================================================== end point for getting a users jobs
 router.get("/jobs/:id", getUserJobs);
 
-router.post("/updateProfile/:id");
-updateAccount;
+router.post(
+  "/updateProfile/:id",
+  multer({ storage: multer.memoryStorage() }).single("dpImage"),
+  updateAccount
+);
+
 module.exports = router; // exporting the express router

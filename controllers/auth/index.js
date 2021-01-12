@@ -98,29 +98,21 @@ exports.updateAccount = async (req, res) => {
   const { id } = req.params;
   const {
     areaOfOperation,
-    dob,
     qualification,
     specialities,
-    nin,
     profession,
-    idFront,
-    idBack,
     client,
     workman,
   } = req.body;
+  const image = req.file;
   UserModal.findOneAndUpdate(
     { _id: id },
     {
-      firstName,
-      lastName,
       areaOfOperation,
-      dob,
       qualification,
       specialities,
-      nin,
+      dpImage: await getImageUrl(image),
       profession,
-      idFront: await getImageUrl(idFront),
-      idBack: await getImageUrl(idBack),
       workman: JSON.parse(workman),
       client: JSON.parse(client),
     },
