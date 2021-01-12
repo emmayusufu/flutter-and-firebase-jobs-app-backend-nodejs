@@ -94,49 +94,13 @@ exports.allWorkmen = (req, res) => {
   });
 };
 
-exports.updateAccountToWorkMan = async (req, res) => {
+exports.updateAccount = async (req, res) => {
   const id = req.params;
   const {
     areaOfOperation,
     dob,
     qualification,
-    extraSkills,
-    nin,
-    profession,
-    idFront,
-    idBack,
-  } = req.body;
-  UserModal.findOneAndUpdate(
-    { _id: id },
-    {
-      firstName,
-      lastName,
-      areaOfOperation,
-      dob,
-      qualification,
-      extraSkills,
-      nin,
-      profession,
-      idFront: await getImageUrl(idFront),
-      idBack: await getImageUrl(idBack),
-      workman: true,
-      client: false,
-    },
-    { new: true, useFindAndModify: false },
-    function (err, result) {
-      if (err) console.log(err);
-      res.json(result);
-    }
-  );
-};
-
-exports.updateAccountToClient = async (req, res) => {
-  const id = req.params;
-  const {
-    areaOfOperation,
-    dob,
-    qualification,
-    extraSkills,
+    specialities,
     nin,
     profession,
     idFront,
@@ -152,7 +116,7 @@ exports.updateAccountToClient = async (req, res) => {
       areaOfOperation,
       dob,
       qualification,
-      extraSkills,
+      specialities,
       nin,
       profession,
       idFront: await getImageUrl(idFront),

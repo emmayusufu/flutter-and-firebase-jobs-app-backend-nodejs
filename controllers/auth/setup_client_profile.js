@@ -8,7 +8,7 @@ exports.setupClientProfile = async ({
   image,
   res,
 }) => {
-  UserModal.updateOne(
+  UserModal.findOneAndUpdate(
     { _id: id },
     {
       firstName,
@@ -16,9 +16,14 @@ exports.setupClientProfile = async ({
       dpImage: await getImageUrl(image),
       client: true,
     },
+    {
+      new: true,
+    },
     function (err, user) {
+      if (err) console.log(err);
       res.json({
         message: "success",
+        user: user,
       });
     }
   );
