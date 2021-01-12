@@ -1,6 +1,6 @@
 const credentials = {
-  apiKey: "0f811f30498d06d5b1fc5b3825a2d351452954a2c9d0f1e22407dbb3bf442543",
-  username: "kimaswa",
+  apiKey: "d8c26078e16419ea3e6a4d241241b523e831468eaa8b4595db2882de57a0c406",
+  username: "Workmannow",
 };
 const AfricasTalking = require("africastalking")(credentials);
 
