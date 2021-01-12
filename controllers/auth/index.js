@@ -5,7 +5,7 @@ const { verifyOTP } = require("./verify_otp");
 const { register } = require("./register");
 const { setupClientProfile } = require("./setup_client_profile");
 const { setupWorkManProfile } = require("./setup_workman_profile");
-const { getImageUrl } = require("../../utilities/helper-functions");
+// const { getImageUrl } = require("../../utilities/helper-functions");
 const user = require("../../modals/user");
 
 //  ====================================== controller for handling uer login
@@ -43,7 +43,7 @@ exports.setupWorkManProfile = (req, res) => {
     areaOfOperation,
     dob,
     qualification,
-    extraSkills,
+    specialities,
     nin,
     profession,
     aboutSelf,
@@ -61,7 +61,7 @@ exports.setupWorkManProfile = (req, res) => {
     areaOfOperation,
     dob,
     qualification,
-    extraSkills,
+    specialities,
     nin,
     profession,
     dpImage,
@@ -105,29 +105,28 @@ exports.updateAccount = async (req, res) => {
     client,
     workman,
     aboutSelf,
-    staringFee,
+    startingFee,
   } = req.body;
   // const image = req.file;
   UserModal.findOneAndUpdate(
     { _id: id },
     {
+      // dpImage: await getImageUrl(image),
       areaOfOperation,
       qualification,
       specialities,
       aboutSelf,
-      staringFee,
-      // dpImage: await getImageUrl(image),
+      startingFee,
       profession,
       workman: JSON.parse(workman),
       client: JSON.parse(client),
     },
     { new: true, useFindAndModify: false },
-    function (err, result) {
+    function (err, user) {
       if (err) console.log(err);
-      console.log("done updating", user);
       res.json({
-        message: "successs",
-        result,
+        message: "success",
+        user,
       });
     }
   );
