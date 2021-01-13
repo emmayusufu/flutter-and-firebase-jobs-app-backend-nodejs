@@ -78,16 +78,16 @@ app.get("/", (req, res) => {
   res.send("200");
 });
 
-// mongoose
-//   .connect(
-//     "mongodb+srv://emmajoe:240063@workman.vxspb.mongodb.net/workman?retryWrites=true&w=majority",
-//     { useNewUrlParser: true, useUnifiedTopology: true }
-//   )
-//   .then(() => {
-server.listen(port, () => {
-  console.log(`listening on http://localhost:${port}`);
-});
-// })
-// .catch((e) => {
-//   console.log(`caught error: ${e} when connecting to mongodb sever`);
-// });
+mongoose
+  .connect(
+    "mongodb+srv://emmajoe:240063@workman.vxspb.mongodb.net/workman?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`listening on http://localhost:${port}`);
+    });
+  })
+  .catch((e) => {
+    console.log(`caught error: ${e} when connecting to mongodb sever`);
+  });
