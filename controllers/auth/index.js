@@ -107,6 +107,7 @@ exports.updateAccount = async (req, res) => {
     aboutSelf,
     startingFee,
   } = req.body;
+
   // const image = req.file;
   UserModal.findOneAndUpdate(
     { _id: id },

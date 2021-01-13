@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   profession: String,
   aboutSelf: String,
-  specialities: String,
+  specialities: [],
   areaOfOperation: String,
   dob: String,
   nin: String,
