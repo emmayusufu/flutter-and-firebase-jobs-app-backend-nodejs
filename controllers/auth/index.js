@@ -109,26 +109,60 @@ exports.updateAccount = async (req, res) => {
   } = req.body;
 
   // const image = req.file;
-  UserModal.findOneAndUpdate(
-    { _id: id },
-    {
-      // dpImage: await getImageUrl(image),
-      areaOfOperation,
-      qualification,
-      specialities,
-      aboutSelf,
-      startingFee,
-      profession,
-      workman: JSON.parse(workman),
-      client: JSON.parse(client),
-    },
-    { new: true, useFindAndModify: false },
-    function (err, user) {
-      if (err) console.log(err);
-      res.json({
-        message: "success",
-        user,
+
+  UserModal.findById(id, function (err, doc) {
+    if (err) {
+      console.log(`caught error: ${err} while finding user with id:${id}`);
+    } else {
+      doc.areaOfOperation = areaOfOperation;
+      doc.qualification = qualification;
+      doc.specialities = specialities;
+      doc.aboutSelf = aboutSelf;
+      doc.startingFee = startingFee;
+      doc.profession = profession;
+      doc.workman = JSON.parse(workman);
+      doc.client = JSON.parse(client);
+      doc.save(function (err) {
+        if (err) {
+          console.log(`caught error: ${err} while updating user with id:${id}`);
+        } else {
+          UserModal.findById(id, function (err, user) {
+            if (err) {
+              console.log(
+                `caught error: ${err} while finding user with id:${id}`
+              );
+            } else {
+              res.json({
+                message: "success",
+                user,
+              });
+            }
+          });
+        }
       });
     }
-  );
+  });
+
+  // UserModal.findOneAndUpdate(
+  //   { _id: id },
+  //   {
+  //     // dpImage: await getImageUrl(image),
+  //     areaOfOperation,
+  //     qualification,
+  //     specialities,
+  //     aboutSelf,
+  //     startingFee,
+  //     profession,
+  //     workman: JSON.parse(workman),
+  //     client: JSON.parse(client),
+  //   },
+  //   { new: true, useFindAndModify: false },
+  //   function (err, user) {
+  //     if (err) console.log(err);
+  //     res.json({
+  //       message: "success",
+  //       user,
+  //     });
+  //   }
+  // );
 };

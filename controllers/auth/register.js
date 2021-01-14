@@ -25,23 +25,16 @@ exports.register = ({ email, phoneNumber, password, res }) => {
               })
                 .save()
                 .then((result) => {
-                  res.json({
-                    message: "success",
-                    phoneNumber: result.phoneNumber,
-                  });
-                  return result;
-                })
-                .then((result2) => {
-                  const number = result2.phoneNumber;
-                  const options = {
-                    to: [number],
-                    message: `Enter : ${result2.otp} to verify your WorkManNow Account`,
-                  };
-
                   sms
-                    .send(options)
-                    .then((response) => {
-                      res.json();
+                    .send({
+                      to: [result.phoneNumber],
+                      message: `Enter : ${result.otp} to verify your WorkManNow Account`,
+                    })
+                    .then(() => {
+                      res.json({
+                        message: "success",
+                        phoneNumber: result.phoneNumber,
+                      });
                     })
                     .catch((error) => {
                       console.log(error);

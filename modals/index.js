@@ -1,4 +1,4 @@
-const JobModal = require("./job");
+const JobModal = require("./job/index");
 const UserModal = require("./user");
 
 module.exports = {

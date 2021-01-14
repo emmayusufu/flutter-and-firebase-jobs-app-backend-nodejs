@@ -47,21 +47,7 @@ exports.setupWorkManProfile = async ({
       if (err) console.log(err);
       res.json({
         message: "success",
-        user: {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phoneNumber: user.phoneNumber,
-          email: user.email,
-          profession: user.profession,
-          aboutSelf: user.aboutSelf,
-          specialities: user.specialities,
-          areaOfOperation: user.areaOfOperation,
-          dpImage: user.db,
-          client: user.client,
-          workman: user.workman,
-          rating: user.rating,
-          startingFee: user.startingFee,
-        },
+        user: user,
       });
     }
   );
