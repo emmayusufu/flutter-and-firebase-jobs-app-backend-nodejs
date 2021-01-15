@@ -19,7 +19,7 @@ const {
 const { hireWorkMan } = require("../controllers/hire");
 
 // ================================================== importing job controllers
-const { getUserJobs } = require("../controllers/job");
+const { getUserHirings } = require("../controllers/hiring");
 
 // ================================================== end point for registering users
 router.post("/register", register);
@@ -54,7 +54,7 @@ router.get("/clients", allClients);
 router.get("/hire/:workmanID", hireWorkMan);
 
 // ================================================== end point for getting a users jobs
-router.get("/jobs/:id", getUserJobs);
+router.get("/jobs/:id", getUserHirings);
 
 router.post(
   "/updateProfile/:id",

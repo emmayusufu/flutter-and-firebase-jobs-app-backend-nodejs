@@ -1,7 +1,7 @@
-const JobModal = require("./job/index");
+const HiringModal = require("./hiring/index");
 const UserModal = require("./user");
 
 module.exports = {
-  JobModal,
+  HiringModal,
   UserModal,
 };
