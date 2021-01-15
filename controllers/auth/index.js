@@ -7,6 +7,7 @@ const { setupClientProfile } = require("./setup_client_profile");
 const { setupWorkManProfile } = require("./setup_workman_profile");
 // const { getImageUrl } = require("../../utilities/helper-functions");
 const user = require("../../modals/user");
+const { updateAccount } = require("./update_account");
 
 //  ====================================== controller for handling uer login
 exports.login = (req, res) => {
@@ -29,12 +30,11 @@ exports.verifyOtp = (req, res) => {
 // ==================================================== setting up client profile
 exports.setupClientProfile = (req, res) => {
   const { id, firstName, lastName } = req.body;
-  // const image = toBase64(req.file);
 
   setupClientProfile({ firstName, id, image: req.file, lastName, res });
 };
 
-// ==================================================== setting up mechanic profile
+// ==================================================== setting up workman profile
 exports.setupWorkManProfile = (req, res) => {
   const {
     id,
@@ -73,6 +73,7 @@ exports.setupWorkManProfile = (req, res) => {
   });
 };
 
+// ==================================================== getting all clients
 exports.allClients = (req, res) => {
   UserModal.find({ client: true }, function (err, clients) {
     if (err) {
@@ -84,6 +85,7 @@ exports.allClients = (req, res) => {
   });
 };
 
+// ==================================================== getting all workmen
 exports.allWorkmen = (req, res) => {
   UserModal.find({ workman: true }, function (err, workmen) {
     if (err) {
@@ -95,6 +97,7 @@ exports.allWorkmen = (req, res) => {
   });
 };
 
+// ==================================================== updating user account
 exports.updateAccount = async (req, res) => {
   const { id } = req.params;
   const {
@@ -106,63 +109,27 @@ exports.updateAccount = async (req, res) => {
     workman,
     aboutSelf,
     startingFee,
+    nin,
   } = req.body;
 
-  // const image = req.file;
+  const dpImage = req.files.find((e) => e.fieldname == "dpImage");
+  const idBack = req.files.find((e) => e.fieldname == "idBack");
+  const idFront = req.files.find((e) => e.fieldname == "idFront");
 
-  UserModal.findById(id, function (err, doc) {
-    if (err) {
-      console.log(`caught error: ${err} while finding user with id:${id}`);
-    } else {
-      doc.areaOfOperation = areaOfOperation;
-      doc.qualification = qualification;
-      doc.specialities = specialities;
-      doc.aboutSelf = aboutSelf;
-      doc.startingFee = startingFee;
-      doc.profession = profession;
-      doc.workman = JSON.parse(workman);
-      doc.client = JSON.parse(client);
-      doc.save(function (err) {
-        if (err) {
-          console.log(`caught error: ${err} while updating user with id:${id}`);
-        } else {
-          UserModal.findById(id, function (err, user) {
-            if (err) {
-              console.log(
-                `caught error: ${err} while finding user with id:${id}`
-              );
-            } else {
-              res.json({
-                message: "success",
-                user,
-              });
-            }
-          });
-        }
-      });
-    }
+  updateAccount({
+    areaOfOperation,
+    id,
+    qualification,
+    specialities,
+    profession,
+    client,
+    workman,
+    aboutSelf,
+    startingFee,
+    nin,
+    idFront,
+    idBack,
+    dpImage,
+    res,
   });
-
-  // UserModal.findOneAndUpdate(
-  //   { _id: id },
-  //   {
-  //     // dpImage: await getImageUrl(image),
-  //     areaOfOperation,
-  //     qualification,
-  //     specialities,
-  //     aboutSelf,
-  //     startingFee,
-  //     profession,
-  //     workman: JSON.parse(workman),
-  //     client: JSON.parse(client),
-  //   },
-  //   { new: true, useFindAndModify: false },
-  //   function (err, user) {
-  //     if (err) console.log(err);
-  //     res.json({
-  //       message: "success",
-  //       user,
-  //     });
-  //   }
-  // );
 };

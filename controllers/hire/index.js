@@ -28,7 +28,7 @@ exports.hireWorkMan = (req, res) => {
         `caught error ${err} while finding workMan with id :${workmanID}`
       );
     } else {
-      const ref = db.collection("hiring").doc(workmanID);
+      const ref = db.collection("hirings").doc(workmanID);
       ref.set({
         description,
         clientPhoneNumber,

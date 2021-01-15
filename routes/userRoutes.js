@@ -58,7 +58,7 @@ router.get("/jobs/:id", getUserHirings);
 
 router.post(
   "/updateProfile/:id",
-  multer({ storage: multer.memoryStorage() }).single("dpImage"),
+  multer({ storage: multer.memoryStorage() }).any(),
   updateAccount
 );
 
