@@ -20,6 +20,8 @@ exports.hireWorkMan = (req, res) => {
     description,
     clientPhoneNumber,
     clientName,
+    location,
+    contact,
   });
   // ================================================================== finding requested workman
   UserModal.findOne({ _id: workmanID }, null, function (err, workman) {
