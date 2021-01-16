@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 const userRoutes = require("./routes/userRoutes");
 const { rtd } = require("./utilities/firebase/admin_config");
 const { UserModal } = require("./modals");
-const { sms } = require("./utilities/africastalking");
 
 const io = require("./utilities/socketio").init(server);
 

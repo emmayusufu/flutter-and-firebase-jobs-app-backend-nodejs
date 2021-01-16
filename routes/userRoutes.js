@@ -15,11 +15,13 @@ const {
   updateAccount,
 } = require("../controllers/auth");
 
-// ================================================== importing hire controllers
-const { hireWorkMan } = require("../controllers/hire");
-
-// ================================================== importing job controllers
-const { getUserHirings } = require("../controllers/hiring");
+// ================================================== importing hiring controllers
+const {
+  getClientHirings,
+  getWorkManHirings,
+  hireWorkMan,
+  updatehiring,
+} = require("../controllers/hiring");
 
 // ================================================== end point for registering users
 router.post("/register", register);
@@ -44,6 +46,13 @@ router.post(
   setupWorkManProfile
 );
 
+// ================================================== end point for updating a user's profile
+router.post(
+  "/updateProfile/:id",
+  multer({ storage: multer.memoryStorage() }).any(),
+  updateAccount
+);
+
 // ================================================== end point for getting all the workmen
 router.get("/workmen", allWorkmen);
 
@@ -53,13 +62,13 @@ router.get("/clients", allClients);
 // ================================================== end point for hiring workman
 router.get("/hire/:workmanID", hireWorkMan);
 
-// ================================================== end point for getting a users jobs
-router.get("/jobs/:id", getUserHirings);
+// ================================================== end point for getting a specific workMan's hiring
+router.get("/workManHirings/:id", getWorkManHirings);
 
-router.post(
-  "/updateProfile/:id",
-  multer({ storage: multer.memoryStorage() }).any(),
-  updateAccount
-);
+// ================================================== end point for getting a specific client's hiring
+router.get("/clientHirings/:id", getClientHirings);
+
+// ================================================== end point for updating a specific hiring
+router.get("/updateHiring/:id", updatehiring);
 
 module.exports = router; // exporting the express router
