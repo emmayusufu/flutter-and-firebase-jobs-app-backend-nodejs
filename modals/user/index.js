@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
   phoneToken: String,
   firstName: String,
   lastName: String,
+  qualification: String,
   phoneNumber: {
     type: String,
     required: true,
@@ -46,6 +47,8 @@ const userSchema = new mongoose.Schema({
     default: 0,
   },
   startingFee: String,
+  userToken: String,
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("User", userSchema);

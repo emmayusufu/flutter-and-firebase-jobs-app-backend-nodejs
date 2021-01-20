@@ -23,52 +23,52 @@ const {
   updatehiring,
 } = require("../controllers/hiring");
 
-// ================================================== end point for registering users
+// ================================================== route for registering users
 router.post("/register", register);
 
-// ================================================== end point for getting for logging in users
+// ================================================== route for getting for logging in users
 router.post("/login", login);
 
-// ================================================== end point for verifying otp
+// ================================================== route for verifying otp
 router.post("/verify_otp", verifyOtp);
 
-// ================================================== end point for setting up client profile
+// ================================================== route for setting up client profile
 router.post(
   "/setup_client_profile",
   multer({ storage: multer.memoryStorage() }).single("dpImage"),
   setupClientProfile
 );
 
-// ================================================== end point for setting up workman profile
+// ================================================== route for setting up workman profile
 router.post(
   "/setup_workman_profile",
   multer({ storage: multer.memoryStorage() }).any(),
   setupWorkManProfile
 );
 
-// ================================================== end point for updating a user's profile
+// ================================================== route for updating a user's profile
 router.post(
   "/updateProfile/:id",
   multer({ storage: multer.memoryStorage() }).any(),
   updateAccount
 );
 
-// ================================================== end point for getting all the workmen
+// ================================================== route for getting all the workmen
 router.get("/workmen", allWorkmen);
 
-// ================================================== end point for getting all the clients
+// ================================================== route for getting all the clients
 router.get("/clients", allClients);
 
-// ================================================== end point for hiring workman
+// ================================================== route for hiring workman
 router.get("/hire/:workmanID", hireWorkMan);
 
-// ================================================== end point for getting a specific workMan's hiring
+// ================================================== route for getting a specific workMan's hiring
 router.get("/workManHirings/:id", getWorkManHirings);
 
-// ================================================== end point for getting a specific client's hiring
+// ================================================== route for getting a specific client's hiring
 router.get("/clientHirings/:id", getClientHirings);
 
-// ================================================== end point for updating a specific hiring
+// ================================================== route for updating a specific hiring
 router.get("/updateHiring/:id", updatehiring);
 
 module.exports = router; // exporting the express router

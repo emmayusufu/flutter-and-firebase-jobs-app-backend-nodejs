@@ -60,7 +60,9 @@ exports.hireWorkMan = (req, res) => {
               contact,
               createdAt: new Date.now(),
             })
-            .then(() => {})
+            .then(() => {
+              res.json();
+            })
             .catch((err) =>
               console.log(`caught error :${err} while adding hiring`)
             );

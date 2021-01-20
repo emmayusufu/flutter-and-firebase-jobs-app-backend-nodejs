@@ -23,6 +23,11 @@ const jobSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  declined: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model("Job", jobSchema);
