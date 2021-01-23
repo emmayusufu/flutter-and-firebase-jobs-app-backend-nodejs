@@ -87,12 +87,17 @@ exports.allClients = (req, res) => {
 
 // ==================================================== getting all workmen
 exports.allWorkmen = (req, res) => {
+  const { id } = req.params;
   UserModal.find({ workman: true }, function (err, workmen) {
     if (err) {
       console.log(err);
       res.json({ message: `caught error:${err}` });
     } else if (!err) {
-      res.json(workmen);
+      res.json(
+        workmen.filter((e) => {
+          return e._id != id;
+        })
+      );
     }
   });
 };

@@ -4,7 +4,7 @@ const jobSchema = new mongoose.Schema({
   clientId: String,
   workManId: String,
   clientName: String,
-  clientPhoneNumber: String,
+  contact: String,
   description: String,
   completed: {
     type: Boolean,

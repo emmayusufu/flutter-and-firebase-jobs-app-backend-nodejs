@@ -19,57 +19,6 @@ app.use(bodyParser.json());
 
 // =============================importing routes
 const userRoutes = require("./routes/userRoutes");
-const { rtd } = require("./utilities/firebase/admin_config");
-const { UserModal } = require("./modals");
-
-const io = require("./utilities/socketio").init(server);
-
-//################################################################################################################################# initializing socket.io
-io.on("connection", (socket) => {
-  const user = JSON.parse(socket.handshake.headers.user);
-  // ========================= runs when a user connects =========================
-  if (user) {
-    UserModal.updateOne(
-      { _id: user.id },
-      { online: true },
-      function (err, user2) {
-        console.log(`user with id:${user.id} is now online`);
-      }
-    );
-  } else {
-    console.log("an unknown user connected");
-  }
-  // ========================= runs when a user disconnects =========================
-  socket.on("disconnect", (data) => {
-    if (user) {
-      UserModal.updateOne(
-        { _id: user.id },
-        { online: false },
-        function (err, user2) {
-          console.log(`user with id:${user.id} is now offline`);
-        }
-      );
-    } else {
-      console.log("an unknown user disconnected");
-    }
-  });
-  // ============================================ listening to user locations
-
-  socket.on("location", (data) => {
-    //=========================================================  fetching all mechanics' locations from firestore
-    rtd.ref("/user_locations/" + data.id).set(
-      {
-        latitude: data.latitude,
-        longitude: data.longitude,
-      },
-      (error) => {
-        if (error) {
-          console.log(`The write failed because of error ${error}`);
-        }
-      }
-    );
-  });
-});
 
 // ============================using the imported routes
 app.use(userRoutes);

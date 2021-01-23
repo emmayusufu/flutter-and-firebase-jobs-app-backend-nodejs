@@ -41,13 +41,13 @@ const userSchema = new mongoose.Schema({
   },
   online: {
     type: Boolean,
+    default: false,
   },
   rating: {
     type: Number,
     default: 0,
   },
   startingFee: String,
-  userToken: String,
   createdAt: { type: Date, default: Date.now },
 });
 

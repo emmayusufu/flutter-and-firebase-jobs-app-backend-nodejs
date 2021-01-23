@@ -21,6 +21,7 @@ const {
   getWorkManHirings,
   hireWorkMan,
   updatehiring,
+  acceptHiring,
 } = require("../controllers/hiring");
 
 // ================================================== route for registering users
@@ -54,19 +55,24 @@ router.post(
 );
 
 // ================================================== route for getting all the workmen
-router.get("/workmen", allWorkmen);
+router.get("/workmen/:id", allWorkmen);
 
 // ================================================== route for getting all the clients
 router.get("/clients", allClients);
 
 // ================================================== route for hiring workman
-router.get("/hire/:workmanID", hireWorkMan);
+router.post("/hire/:workmanID", hireWorkMan);
 
 // ================================================== route for getting a specific workMan's hiring
 router.get("/workManHirings/:id", getWorkManHirings);
 
 // ================================================== route for getting a specific client's hiring
 router.get("/clientHirings/:id", getClientHirings);
+
+// ================================================== route for accepting a specific hiring
+router.post("/accept_hiring/", acceptHiring);
+// ================================================== route for declining a specific hiring
+router.post("/decline_hiring/", acceptHiring);
 
 // ================================================== route for updating a specific hiring
 router.get("/updateHiring/:id", updatehiring);
