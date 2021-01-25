@@ -19,7 +19,7 @@ exports.hireWorkMan = (req, res) => {
   const ref = db.collection("userData").doc(workmanID);
   const hiringsRef = db
     .collection("users")
-    .doc(workmanID)
+    .doc(`${workmanID}/${clientID}`)
     .collection("hirings");
 
   // ================================================================== finding requested workman
@@ -123,7 +123,7 @@ exports.hireWorkMan = (req, res) => {
                                     .doc(array[3])
                                     .delete();
                                 });
-                            } else if (accepted == false) {
+                            } else if (accepted == true) {
                               msg.sendToDevice(
                                 tokens,
                                 {
