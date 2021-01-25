@@ -11,6 +11,7 @@ exports.hireWorkMan = (req, res) => {
     location,
     contact,
     clientImage,
+    geocodes,
   } = req.body;
 
   //  ================================================================== creating new job
@@ -27,7 +28,7 @@ exports.hireWorkMan = (req, res) => {
       console.log(
         `caught error ${err} while finding workMan with id :${workmanID}`
       );
-      res.json();
+      res.status(503).json();
     } else {
       // ================================================================== sending workman an sms if is offline
       if (workman) {
@@ -50,11 +51,11 @@ exports.hireWorkMan = (req, res) => {
           clientID,
           workmanID,
           clientImage,
+          geocodes: JSON.parse(geocodes),
           accepted: false,
-          denied: false,
           createdAt: Date.now(),
         })
-        .then(() => {
+        .then((doc) => {
           ref.get().then((snapshot) => {
             if (!snapshot.exists) console.log("user does not exist");
             else {
@@ -81,25 +82,67 @@ exports.hireWorkMan = (req, res) => {
                 .then(() => {
                   res.json({
                     message: "success",
+                    docRef: doc.path,
                   });
                 })
                 .then(() => {
                   setTimeout(() => {
-                    msg.sendToDevice(
-                      tokens,
-                      {
-                        data: {
-                          message: "timeOut",
-                        },
-                      },
-                      {
-                        // Required for background/quit data-only messages on iOS
-                        contentAvailable: true,
-                        // Required for background/quit data-only messages on Android
-                        priority: "high",
-                      }
-                    );
-                  }, 10000);
+                    const array = doc.path.split("/");
+                    db.collection(array[0])
+                      .doc(array[1])
+                      .collection(array[2])
+                      .doc(array[3])
+                      .get()
+                      .then((data) => {
+                        const { accepted } = data.data();
+
+                        db.collection("userData")
+                          .doc(clientID)
+                          .get()
+                          .then((clientTokens) => {
+                            const { tokens } = clientTokens.data();
+
+                            if (accepted == false) {
+                              msg
+                                .sendToDevice(
+                                  tokens,
+                                  {
+                                    data: {
+                                      message: "timeOut",
+                                    },
+                                  },
+                                  {
+                                    contentAvailable: true,
+                                    priority: "high",
+                                  }
+                                )
+                                .then(() => {
+                                  db.collection(array[0])
+                                    .doc(array[1])
+                                    .collection(array[2])
+                                    .doc(array[3])
+                                    .delete();
+                                });
+                            } else if (accepted == false) {
+                              msg.sendToDevice(
+                                tokens,
+                                {
+                                  data: {
+                                    message: "accepted",
+                                  },
+                                },
+                                {
+                                  contentAvailable: true,
+                                  priority: "high",
+                                }
+                              );
+                            }
+                          });
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                      });
+                  }, 30000);
                 })
                 .catch((err) => console.log(err));
             }
