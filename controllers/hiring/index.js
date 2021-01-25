@@ -10,19 +10,10 @@ exports.hireWorkMan = (req, res) => {
     clientName,
     location,
     contact,
-    clienImage,
+    clientImage,
   } = req.body;
 
   //  ================================================================== creating new job
-  // const hiring = new HiringModal({
-  //   clientID,
-  //   workmanID,
-  //   description,
-  //   clientName,
-  //   location,
-  //   contact,
-  //   clienImage,
-  // });
 
   const ref = db.collection("userData").doc(workmanID);
   const hiringsRef = db
@@ -58,7 +49,7 @@ exports.hireWorkMan = (req, res) => {
           contact,
           clientID,
           workmanID,
-          clienImage,
+          clientImage,
           accepted: false,
           denied: false,
           createdAt: Date.now(),
@@ -117,16 +108,6 @@ exports.hireWorkMan = (req, res) => {
         .catch((err) => {
           console.log(err);
         });
-
-      // ================================================================== then save hiring and send notification to workman
-      // hiring
-      //   .save()
-      //   .then(() => {
-
-      //   })
-      //   .catch((err) => {
-      //     console.log(`caught error :${err} while saving hire`);
-      //   });
     }
   });
 };
@@ -164,14 +145,41 @@ exports.declineHiring = (req, res) => {
     .doc(array[1])
     .collection(array[2])
     .doc(array[3]);
+
   ref
-    .update({
-      declined: true,
-    })
-    .then(() => {
-      res.json({
-        message: "success",
+    .get()
+    .then((data) => {
+      const {
+        clientID,
+        workmanID,
+        location,
+        contact,
+        clienImage,
+        clientName,
+        description,
+      } = data.data();
+
+      const hiring = new HiringModal({
+        clientID,
+        workmanID,
+        description,
+        clientName,
+        clientLocation: location,
+        clientContact: contact,
+        clientImage: clienImage,
+        declined: true,
       });
+
+      hiring
+        .save()
+        .then(() => {
+          ref.delete().then(function () {
+            res.json({ message: "success" });
+          });
+        })
+        .catch((err) => {
+          console.log(`caught error :${err} while saving hire`);
+        });
     })
     .catch((err) => console.log(err));
 };
@@ -201,20 +209,63 @@ exports.getWorkManHirings = (req, res) => {
 };
 
 // ================================================================== updating a specific hiring
-exports.updatehiring = (req, res) => {
-  const { workManRating, review, clientRating } = req.body;
+exports.completeHiring = (req, res) => {
+  const { workManRating, review, docRef } = req.body;
 
-  const { id } = req.params;
+  const array = docRef.split("/");
 
-  HiringModal.findOne({ _id: id })
-    .then((hiring) => {
-      hiring.workManRating = workManRating;
-      hiring.clientRating = clientRating;
-      hiring.review = review;
-      hiring.completed = true;
-      hiring.save();
+  const ref = db
+    .collection(array[0])
+    .doc(array[1])
+    .collection(array[2])
+    .doc(array[3]);
+
+  ref
+    .get()
+    .then((data) => {
+      const {
+        clientID,
+        workmanID,
+        location,
+        contact,
+        clienImage,
+        clientName,
+        description,
+      } = data.data();
+
+      UserModal.findById(workmanID, null, function (err, doc) {
+        if (err) console.log(err);
+        doc.rating = (doc.rating + workManRating) / 2;
+        doc
+          .save()
+          .then(() => {
+            const hiring = new HiringModal({
+              clientID,
+              workmanID,
+              description,
+              clientName,
+              clientLocation: location,
+              clientContact: contact,
+              clientImage: clienImage,
+              accepted: true,
+              completed: true,
+              review,
+              workManRating,
+            });
+
+            hiring
+              .save()
+              .then(() => {
+                ref.delete().then(function () {
+                  res.json({ message: "success" });
+                });
+              })
+              .catch((err) => {
+                console.log(`caught error :${err} while saving hire`);
+              });
+          })
+          .catch((err) => console.log(`caught error: ${err} `));
+      });
     })
-    .catch((e) => {
-      console.log(e);
-    });
+    .catch((err) => console.log(err));
 };

@@ -20,8 +20,9 @@ const {
   getClientHirings,
   getWorkManHirings,
   hireWorkMan,
-  updatehiring,
+  completeHiring,
   acceptHiring,
+  declineHiring,
 } = require("../controllers/hiring");
 
 // ================================================== route for registering users
@@ -70,11 +71,11 @@ router.get("/workManHirings/:id", getWorkManHirings);
 router.get("/clientHirings/:id", getClientHirings);
 
 // ================================================== route for accepting a specific hiring
-router.post("/accept_hiring/", acceptHiring);
+router.post("/accept_hiring", acceptHiring);
 // ================================================== route for declining a specific hiring
-router.post("/decline_hiring/", acceptHiring);
+router.post("/decline_hiring", declineHiring);
 
 // ================================================== route for updating a specific hiring
-router.get("/updateHiring/:id", updatehiring);
+router.get("/complete_hiring", completeHiring);
 
 module.exports = router; // exporting the express router
