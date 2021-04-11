@@ -6,16 +6,15 @@ const mongoose = require("mongoose");
 
 const app = express();
 const server = http.createServer(app);
-const bodyParser = require("body-parser");
 const port = process.env.PORT;
 
 app.use(cors());
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
-app.use(bodyParser.json());
+app.use(express.json());
 
 // =============================importing routes
 const userRoutes = require("./routes/userRoutes");
@@ -28,7 +27,7 @@ app.get("/", (req, res) => {
 
 mongoose
   .connect(
-    "mongodb+srv://emmajoe:240063@workman.vxspb.mongodb.net/workman?retryWrites=true&w=majority",
+    process.env.MONGO_URI,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
