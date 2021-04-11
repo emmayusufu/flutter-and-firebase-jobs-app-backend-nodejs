@@ -1,4 +1,4 @@
-const { UserModal } = require("../../modals");
+const { UserModal } = require("../../schemas");
 
 const { login } = require("./login");
 const { verifyOTP } = require("./verify_otp");
@@ -6,7 +6,7 @@ const { register } = require("./register");
 const { setupClientProfile } = require("./setup_client_profile");
 const { setupWorkManProfile } = require("./setup_workman_profile");
 // const { getImageUrl } = require("../../utilities/helper-functions");
-const user = require("../../modals/user");
+const user = require("../../schemas/user");
 const { updateAccount } = require("./update_account");
 
 //  ====================================== controller for handling uer login

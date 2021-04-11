@@ -3,6 +3,7 @@ const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const morgan = require("morgan")
 
 const app = express();
 const server = http.createServer(app);
@@ -14,6 +15,7 @@ app.use(
     extended: true,
   })
 );
+app.use(morgan("short"))
 app.use(express.json());
 
 // =============================importing routes
