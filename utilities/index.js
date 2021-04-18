@@ -1,3 +1,4 @@
 exports.user_roles = {
-    workman,client
+    workman:"workman",
+    client:"client"
 }

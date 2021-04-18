@@ -1,20 +1,21 @@
 const { UserModal } = require("../../models");
 const { getImageUrl } = require("../../utilities/helper-functions");
+const {user_roles} = require("../../utilities")
 
-exports.setupClientProfile = async ({
-  id,
-  firstName,
-  lastName,
-  image,
-  res,
-}) => {
+exports.setupClientProfile =  async (req, res) => {
+  const {
+    userId,
+    firstName,
+    lastName,
+    profileImage
+  } = req.body
   UserModal.findOneAndUpdate(
-    { _id: id },
+    { _id: userId },
     {
       firstName,
       lastName,
-      dpImage: await getImageUrl(image),
-      client: true,
+      profileImage: await getImageUrl(profileImage),
+      role: user_roles.client,
     },
     {
       new: true,

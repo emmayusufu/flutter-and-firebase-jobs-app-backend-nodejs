@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const {user_roles} = require("../utilities")
 
 const userSchema = Schema({
   firstName: String,
@@ -25,10 +26,13 @@ const userSchema = Schema({
   areaOfOperation: String,
   dob: String,
   nin: String,
-  dpImage: String,
+  profileImage: String,
   idFront: String,
   idBack: String,
-  role:String,
+  role:{
+    type:String,
+    enum:[user_roles.client,user_roles.workman],
+  },
   online: Boolean,
   rating:Number,
   startingFee: String,

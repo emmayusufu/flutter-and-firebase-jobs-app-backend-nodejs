@@ -13,7 +13,7 @@ exports.setupWorkManProfile = async ({
   profession,
   aboutSelf,
   startingFee,
-  dpImage,
+  profileImage,
   idFront,
   idBack,
   res,
@@ -31,8 +31,8 @@ exports.setupWorkManProfile = async ({
       profession,
       aboutSelf,
       startingFee,
-      dpImage: await getImageUrl(dpImage).catch((e) => {
-        console.log(`caught error :${e} while storing dpimage`);
+      profileImage: await getImageUrl(profileImage).catch((e) => {
+        console.log(`caught error :${e} while storing profile_image`);
       }),
       idFront: await getImageUrl(idFront).catch((e) => {
         console.log(`caught error :${e} while storing idfront image`);
