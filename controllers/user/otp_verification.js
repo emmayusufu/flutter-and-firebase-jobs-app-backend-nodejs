@@ -4,10 +4,10 @@ exports.otpVerification = (req,res) => {
   const { otp, phoneNumber } = req.body;
   UserModal.findOne({ phoneNumber: phoneNumber }, function (err, user) {
     if (err) {
-      console.log(`caught error ${err}`);
+      res.status(503).json({err})
     } else if (!err) {
       if (user) {
-        if (otp == user.otp) {
+        if (otp === user.otp) {
           UserModal.updateOne(
             { _id: user._id },
             { account_valid: true },
@@ -22,7 +22,7 @@ exports.otpVerification = (req,res) => {
           res.json({ message: "wrong_otp" });
         }
       } else if (!user) {
-        res.json({ message: "phoneNumber_does_not_exist" });
+        res.json({ message: "phone_number_does_not_exist" });
       }
     }
   });

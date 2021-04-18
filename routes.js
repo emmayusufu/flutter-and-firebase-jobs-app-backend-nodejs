@@ -10,6 +10,7 @@ const {
 
 const {registration} = require('./controllers/user/registration')
 const {login} = require('./controllers/user/login')
+const {otpVerification} = require('./controllers/user/otp_verification')
 
 // ================================================== importing hiring controllers
 const {
@@ -25,6 +26,7 @@ router.get('/user/:userId',getUser);
 router.get('/users',getUsers)
 router.post("/user_registration", registration);
 router.post("/user_login", login);
+router.post("/otp_verification", otpVerification);
 
 // // ================================================== route for registering users
 

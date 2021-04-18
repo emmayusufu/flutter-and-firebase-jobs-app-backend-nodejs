@@ -11,7 +11,7 @@ exports.registration = (req,res) => {
     },
     function (err, user) {
       if (err) {
-        console.log(`caught error ${err}`);
+        res.status(503).json({err})
       } else if (!err) {
         if (user) {
           res.json({ message: "phoneNumber_already_number_exists" });
@@ -22,6 +22,7 @@ exports.registration = (req,res) => {
                 email,
                 phoneNumber,
                 password: hash,
+                account_valid:false,
                 otp: generateOtp(5),
               })
                 .save()

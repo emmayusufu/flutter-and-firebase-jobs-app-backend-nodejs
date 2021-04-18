@@ -5,37 +5,37 @@ const { updateAccount } = require("./update_account");
 
 exports.getUser = (req, res) => {
   const query = req.query;
-  const {userId} = req.params;
+  const { userId } = req.params;
 
-  const fields = query.fields.replace(/,/g, " ")
-  UserModal.findOne({_id:userId}, { fields },function(doc, err){
-    if(err){
-      res.status(503).json({err})
-    }else{
-      if(doc){
-        res.json({user:doc})
-      }else if(!doc){
-        res.json({message:"user_does_not_exist"})
+  const fields = query.fields.replace(/,/g, " ");
+  UserModal.findOne({ _id: userId }, fields , function (doc, err) {
+    if (err) {
+      res.status(503).json({ err });
+    } else {
+      if (doc) {
+        res.json({ user: doc });
+      } else if (!doc) {
+        res.json({ message: "user_does_not_exist" });
       }
     }
-  })
-  
+  });
 };
 
 exports.getUsers = (req, res) => {
   const query = req.query;
-  const fields = query.fields.replace(/,/g, " ")
-  UserModal.find({ fields },function(doc, err){
-    if(err){
-      res.status(503).json({err})
-    }else{
-      if(doc){
-        res.json({user:doc})
-      }else if(!doc){
-        res.json({message:"user_does_not_exist"})
+  const fields = query.fields.replace(/,/g, " ");
+  console.log(query)
+  UserModal.find({}, fields, function (err, doc) {
+    if (err) {
+      res.status(503).json({ message: `error ${err}` });
+    } else if (!err) {
+      if (doc) {
+        res.json({ users: doc });
+      } else if (!doc) {
+        res.json({ message: "user_does_not_exist" });
       }
     }
-  })
+  });
 };
 
 // // ==================================================== setting up client profile
