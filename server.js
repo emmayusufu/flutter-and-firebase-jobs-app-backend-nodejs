@@ -19,10 +19,10 @@ app.use(morgan("short"))
 app.use(express.json());
 
 // =============================importing routes
-const userRoutes = require("./routes");
+const routes = require("./routes");
 
 // ============================using the imported routes
-app.use(userRoutes);
+app.use(routes);
 app.get("/", (req, res) => {
   res.send("200");
 });

@@ -1,6 +1,7 @@
 const { UserModal } = require("../../models");
 
-exports.verifyOTP = ({ otp, phoneNumber, res }) => {
+exports.otpVerification = (req,res) => {
+  const { otp, phoneNumber } = req.body;
   UserModal.findOne({ phoneNumber: phoneNumber }, function (err, user) {
     if (err) {
       console.log(`caught error ${err}`);

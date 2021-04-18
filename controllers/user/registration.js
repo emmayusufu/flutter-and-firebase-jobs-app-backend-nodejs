@@ -3,7 +3,8 @@ const { generateOtp } = require("../../utilities/helper-functions");
 const bcrypt = require("bcrypt");
 const { sms } = require("../../utilities/africastalking");
 
-exports.register = ({ email, phoneNumber, password, res }) => {
+exports.registration = (req,res) => {
+  const { email, phoneNumber, password } = req.body;
   UserModal.findOne(
     {
       phoneNumber: phoneNumber,

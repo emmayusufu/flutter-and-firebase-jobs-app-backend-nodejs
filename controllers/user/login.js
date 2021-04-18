@@ -1,7 +1,8 @@
 const { UserModal } = require("../../models");
 const bcrypt = require("bcrypt");
 
-exports.login = ({ res, phoneNumber, password }) => {
+exports.login = (req,res) => {
+  const { phoneNumber, password } = req.body;
   UserModal.findOne({ phoneNumber: phoneNumber }, function (err, user) {
     if (err) {
       console.log(`caught error ${err}`);
