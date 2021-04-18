@@ -1,4 +1,4 @@
-const { UserModal, HiringModal } = require("../../schemas");
+const { UserModal, HiringModal } = require("../../models");
 const { sms } = require("../../utilities/africastalking");
 const { db, msg } = require("../../utilities/firebase/admin_config");
 

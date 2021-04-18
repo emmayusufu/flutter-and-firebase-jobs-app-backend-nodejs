@@ -19,7 +19,7 @@ app.use(morgan("short"))
 app.use(express.json());
 
 // =============================importing routes
-const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes");
 
 // ============================using the imported routes
 app.use(userRoutes);

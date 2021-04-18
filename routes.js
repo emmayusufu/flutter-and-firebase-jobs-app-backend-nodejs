@@ -13,7 +13,7 @@ const {
   allClients,
   allWorkmen,
   updateAccount,
-} = require("../controllers/auth");
+} = require("./controllers/auth");
 
 // ================================================== importing hiring controllers
 const {
@@ -23,7 +23,7 @@ const {
   completeHiring,
   acceptHiring,
   declineHiring,
-} = require("../controllers/hiring");
+} = require("./controllers/hiring");
 
 // ================================================== route for registering users
 router.post("/register", register);

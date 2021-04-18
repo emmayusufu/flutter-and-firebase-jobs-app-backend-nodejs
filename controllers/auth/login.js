@@ -1,4 +1,4 @@
-const { UserModal } = require("../../schemas");
+const { UserModal } = require("../../models");
 const bcrypt = require("bcrypt");
 
 exports.login = ({ res, phoneNumber, password }) => {

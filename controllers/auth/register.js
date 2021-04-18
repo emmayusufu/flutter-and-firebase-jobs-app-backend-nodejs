@@ -1,4 +1,4 @@
-const { UserModal } = require("../../schemas");
+const { UserModal } = require("../../models");
 const { generateOtp } = require("../../utilities/helper-functions");
 const bcrypt = require("bcrypt");
 const { sms } = require("../../utilities/africastalking");

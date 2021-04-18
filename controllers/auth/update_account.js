@@ -1,4 +1,4 @@
-const { UserModal } = require("../../schemas");
+const { UserModal } = require("../../models");
 const { getImageUrl } = require("../../utilities/helper-functions");
 
 exports.updateAccount = ({

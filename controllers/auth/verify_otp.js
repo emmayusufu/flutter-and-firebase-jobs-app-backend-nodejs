@@ -1,4 +1,4 @@
-const { UserModal } = require("../../schemas");
+const { UserModal } = require("../../models");
 
 exports.verifyOTP = ({ otp, phoneNumber, res }) => {
   UserModal.findOne({ phoneNumber: phoneNumber }, function (err, user) {
