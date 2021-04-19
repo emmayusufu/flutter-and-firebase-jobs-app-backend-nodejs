@@ -5,12 +5,12 @@ exports.getUser = (req, res) => {
   const { userId } = req.params;
 
   const fields = query.fields.replace(/,/g, " ");
-  UserModal.findOne({ _id: userId }, fields , function (doc, err) {
+  UserModal.findOne({ _id: userId }, fields , function (err, doc) {
     if (err) {
       res.status(503).json({ err });
     } else {
       if (doc) {
-        res.json(doc);
+        res.json(JSON.parse(doc.profileImage));
       } else if (!doc) {
         res.json({ message: "user_does_not_exist" });
       }

@@ -4,6 +4,7 @@ const http = require("http");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
@@ -17,6 +18,7 @@ app.use(
 );
 app.use(morgan("short"));
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // =============================importing routes
 const routes = require("./routes");
@@ -31,7 +33,7 @@ mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify:false
+    useFindAndModify: false,
   })
   .then(() => {
     server.listen(port, () => {
