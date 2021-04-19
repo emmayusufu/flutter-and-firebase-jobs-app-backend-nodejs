@@ -3,7 +3,7 @@ const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const morgan = require("morgan")
+const morgan = require("morgan");
 
 const app = express();
 const server = http.createServer(app);
@@ -15,7 +15,7 @@ app.use(
     extended: true,
   })
 );
-app.use(morgan("short"))
+app.use(morgan("short"));
 app.use(express.json());
 
 // =============================importing routes
@@ -28,10 +28,10 @@ app.get("/", (req, res) => {
 });
 
 mongoose
-  .connect(
-    process.env.MONGO_URI,
-    { useNewUrlParser: true, useUnifiedTopology: true }
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     server.listen(port, () => {
       console.log(`listening on http://localhost:${port}`);

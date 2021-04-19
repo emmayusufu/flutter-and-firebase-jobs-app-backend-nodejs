@@ -1,16 +1,17 @@
 const express = require("express");
 const multer = require("multer");
-
-const router = express.Router(); // initializing the express router
+const { multerFileStorage } = require("./utilities/helper-functions");
+const router = express.Router();
 
 // ================================================== importing authentication controllers
-const {
- getUser,getUsers
-} = require("./controllers/user");
+const { getUser, getUsers } = require("./controllers/user");
 
-const {registration} = require('./controllers/user/registration')
-const {login} = require('./controllers/user/login')
-const {otpVerification} = require('./controllers/user/otp_verification')
+const { registration } = require("./controllers/user/registration");
+const { login } = require("./controllers/user/login");
+const { otpVerification } = require("./controllers/user/otp_verification");
+const {
+  setupClientProfile,
+} = require("./controllers/user/setup_client_profile");
 
 // ================================================== importing hiring controllers
 const {
@@ -22,11 +23,16 @@ const {
   declineHiring,
 } = require("./controllers/hiring");
 
-router.get('/user/:userId',getUser);
-router.get('/users',getUsers)
+router.get("/user/:userId", getUser);
+router.get("/users", getUsers);
 router.post("/user_registration", registration);
 router.post("/user_login", login);
 router.post("/otp_verification", otpVerification);
+router.post(
+  "/setup_client_profile",
+  multer({ storage: multerFileStorage }).single("profileImage"),
+  setupClientProfile
+);
 
 // // ================================================== route for registering users
 
