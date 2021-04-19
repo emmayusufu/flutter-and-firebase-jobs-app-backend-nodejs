@@ -25,6 +25,8 @@
 //   return url;
 // };
 
+const multer = require("multer")
+
 exports.arrayToObject = (array) => {
   const object = {};
   for (let index = 0; index < array.length; index++) {
