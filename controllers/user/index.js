@@ -1,7 +1,4 @@
 const { UserModal } = require("../../models");
-const { setupClientProfile } = require("./setup_client_profile");
-const { setupWorkManProfile } = require("./setup_workman_profile");
-const { updateAccount } = require("./update_account");
 
 exports.getUser = (req, res) => {
   const query = req.query;
@@ -13,7 +10,7 @@ exports.getUser = (req, res) => {
       res.status(503).json({ err });
     } else {
       if (doc) {
-        res.json({ user: doc });
+        res.json(doc);
       } else if (!doc) {
         res.json({ message: "user_does_not_exist" });
       }
@@ -24,94 +21,20 @@ exports.getUser = (req, res) => {
 exports.getUsers = (req, res) => {
   const query = req.query;
   const fields = query.fields.replace(/,/g, " ");
-  console.log(query)
-  UserModal.find({}, fields, function (err, doc) {
+  UserModal.find({}, fields, function (err, docs) {
     if (err) {
       res.status(503).json({ message: `error ${err}` });
     } else if (!err) {
-      if (doc) {
-        res.json({ users: doc });
-      } else if (!doc) {
-        res.json({ message: "user_does_not_exist" });
+      if (docs) {
+        res.json(docs);
+      } else if (!docs) {
+        res.json({ message: "no_users_found" });
       }
     }
   });
 };
 
-// // ==================================================== setting up client profile
-// exports.setupClientProfile = (req, res) => {
-//   const { id, firstName, lastName } = req.body;
 
-//   setupClientProfile({ firstName, id, image: req.file, lastName, res });
-// };
-
-// // ==================================================== setting up workman profile
-// exports.setupWorkManProfile = (req, res) => {
-//   const {
-//     id,
-//     firstName,
-//     lastName,
-//     areaOfOperation,
-//     dob,
-//     qualification,
-//     specialities,
-//     nin,
-//     profession,
-//     aboutSelf,
-//     startingFee,
-//   } = req.body;
-
-//   const dpImage = req.files.find((e) => e.fieldname == "dpImage");
-//   const idBack = req.files.find((e) => e.fieldname == "idBack");
-//   const idFront = req.files.find((e) => e.fieldname == "idFront");
-
-//   setupWorkManProfile({
-//     id,
-//     firstName,
-//     lastName,
-//     areaOfOperation,
-//     dob,
-//     qualification,
-//     specialities,
-//     nin,
-//     profession,
-//     dpImage,
-//     idBack,
-//     idFront,
-//     aboutSelf,
-//     startingFee,
-//     res,
-//   });
-// };
-
-// // ==================================================== getting all clients
-// exports.allClients = (req, res) => {
-//   UserModal.find({ client: true }, function (err, clients) {
-//     if (err) {
-//       console.log(err);
-//       res.json({ message: `caught error:${err}` });
-//     } else if (!err) {
-//       res.json(clients);
-//     }
-//   });
-// };
-
-// // ==================================================== getting all workmen
-// exports.allWorkmen = (req, res) => {
-//   const { id } = req.params;
-//   UserModal.find({ workman: true }, function (err, workmen) {
-//     if (err) {
-//       console.log(err);
-//       res.json({ message: `caught error:${err}` });
-//     } else if (!err) {
-//       res.json(
-//         workmen.filter((e) => {
-//           return e._id != id;
-//         })
-//       );
-//     }
-//   });
-// };
 
 // // ==================================================== updating user account
 // exports.updateAccount = async (req, res) => {

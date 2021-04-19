@@ -3,7 +3,6 @@ const multer = require("multer");
 const { multerFileStorage } = require("./utilities/helper-functions");
 const router = express.Router();
 
-// ================================================== importing authentication controllers
 const { getUser, getUsers } = require("./controllers/user");
 
 const { registration } = require("./controllers/user/registration");
@@ -12,8 +11,10 @@ const { otpVerification } = require("./controllers/user/otp_verification");
 const {
   setupClientProfile,
 } = require("./controllers/user/setup_client_profile");
+const {
+  setupWorkManProfile,
+} = require("./controllers/user/setup_workman_profile");
 
-// ================================================== importing hiring controllers
 const {
   getClientHirings,
   getWorkManHirings,
@@ -33,28 +34,11 @@ router.post(
   multer({ storage: multerFileStorage }).single("profileImage"),
   setupClientProfile
 );
-
-// // ================================================== route for registering users
-
-// // ================================================== route for getting for logging in users
-// router.post("/login", login);
-
-// // ================================================== route for verifying otp
-// router.post("/verify_otp", verifyOtp);
-
-// // ================================================== route for setting up client profile
-// router.post(
-//   "/setup_client_profile",
-//   multer({ storage: multer.memoryStorage() }).single("dpImage"),
-//   setupClientProfile
-// );
-
-// // ================================================== route for setting up workman profile
-// router.post(
-//   "/setup_workman_profile",
-//   multer({ storage: multer.memoryStorage() }).any(),
-//   setupWorkManProfile
-// );
+router.post(
+  "/setup_workman_profile",
+  multer({ storage: multerFileStorage }).any(),
+  setupWorkManProfile
+);
 
 // // ================================================== route for updating a user's profile
 // router.post(
@@ -86,6 +70,4 @@ router.post(
 // // ================================================== route for updating a specific hiring
 // router.get("/complete_hiring", completeHiring);
 
-module.exports = router; // exporting the express router
-
-// https://792c2a13b2c4.ngrok.io
+module.exports = router;

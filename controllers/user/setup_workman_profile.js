@@ -1,25 +1,33 @@
 const { UserModal } = require("../../models");
-const { getImageUrl } = require("../../utilities/helper-functions");
+const { userRoles } = require("../../utilities");
+const ImageStorage = require("../../utilities/image_storage");
 
-exports.setupWorkManProfile = async ({
-  id,
-  firstName,
-  lastName,
-  areaOfOperation,
-  dob,
-  qualification,
-  specialities,
-  nin,
-  profession,
-  aboutSelf,
-  startingFee,
-  profileImage,
-  idFront,
-  idBack,
-  res,
-}) => {
+exports.setupWorkManProfile = async (req,res) => {
+  const {
+    userId,
+    firstName,
+    lastName,
+    areaOfOperation,
+    dob,
+    qualification,
+    specialities,
+    nin,
+    profession,
+    aboutSelf,
+    startingFee,
+  } = req.body;
+
+  const profileImage = req.files.find((e) => e.fieldname == "profileImage");
+  const idFrontImage = req.files.find((e) => e.fieldname == "idFrontImage");
+  const idBackImage = req.files.find((e) => e.fieldname == "idBackImage");
+
+
+  const profileImageUploader = new ImageStorage(profileImage);
+  const idFrontImageUploader = new ImageStorage(idFrontImage);
+  const idBackImageUploader = new ImageStorage(idBackImage);
+
   UserModal.findOneAndUpdate(
-    { _id: id },
+    { _id: userId },
     {
       firstName,
       lastName,
@@ -31,16 +39,10 @@ exports.setupWorkManProfile = async ({
       profession,
       aboutSelf,
       startingFee,
-      profileImage: await getImageUrl(profileImage).catch((e) => {
-        console.log(`caught error :${e} while storing profile_image`);
-      }),
-      idFront: await getImageUrl(idFront).catch((e) => {
-        console.log(`caught error :${e} while storing idfront image`);
-      }),
-      idBack: await getImageUrl(idBack).catch((e) => {
-        console.log(`caught error :${e} while storing id back image`);
-      }),
-      workman: true,
+      profileImage: await profileImageUploader.uploadImage(),
+      idFrontImage: await idFrontImageUploader.uploadImage(),
+      idBackImage: await idBackImageUploader.uploadImage(),
+      role: userRoles.workman,
     },
     { new: true, useFindAndModify: false },
     function (err, user) {

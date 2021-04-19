@@ -27,8 +27,8 @@ const userSchema = Schema({
   dob: String,
   nin: String,
   profileImage: String,
-  idFront: String,
-  idBack: String,
+  idFrontImage: String,
+  idBackImage: String,
   role:{
     type:String,
     enum:[userRoles.client,userRoles.workman],

@@ -26,6 +26,7 @@
 // };
 
 const multer = require("multer")
+const fs = require("fs")
 
 exports.arrayToObject = (array) => {
   const object = {};

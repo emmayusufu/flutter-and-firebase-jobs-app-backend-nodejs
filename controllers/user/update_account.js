@@ -1,23 +1,29 @@
 const { UserModal } = require("../../models");
-const { getImageUrl } = require("../../utilities/helper-functions");
+const ImageStorage = require("../../utilities/image_storage");
 
-exports.updateAccount = ({
-  areaOfOperation,
-  qualification,
-  specialities,
-  profession,
-  client,
-  workman,
-  aboutSelf,
-  startingFee,
-  id,
-  idFront,
-  idBack,
-  dpImage,
-  nin,
-  res,
-}) => {
-  UserModal.findById(id, async function (err, doc) {
+exports.updateAccount = (req, res) => {
+  const {
+    areaOfOperation,
+    qualification,
+    specialities,
+    profession,
+    client,
+    workman,
+    aboutSelf,
+    startingFee,
+    userId,
+    nin,
+  } = req.body;
+
+  const profileImage = req.files.find((e) => e.fieldname == "profileImage");
+  const idFrontImage = req.files.find((e) => e.fieldname == "idFrontImage");
+  const idBackImage = req.files.find((e) => e.fieldname == "idBackImage");
+
+  const profileImageUploader = new ImageStorage(profileImage);
+  const idFrontImageUploader = new ImageStorage(idFrontImage);
+  const idBackImageUploader = new ImageStorage(idBackImage);
+
+  UserModal.findById(userId, async function (err, doc) {
     if (err) {
       console.log(`caught error: ${err} while finding user with id:${id}`);
     } else {
@@ -31,23 +37,14 @@ exports.updateAccount = ({
       workman != null ? (doc.workman = JSON.parse(workman)) : null;
       client != null ? (doc.client = JSON.parse(client)) : null;
       // =========================================================================storing images
-      dpImage != null
-        ? (doc.dpImage = await getImageUrl(dpImage).catch((e) => {
-            //==================== dp Image
-            console.log(`caught error :${e} while storing dpimage`);
-          }))
+      profileImage != null
+        ? (doc.profileImage = profileImageUploader.uploadImage())
         : null;
       idFront != null
-        ? (doc.idFront = await getImageUrl(idFront).catch((e) => {
-            //==================== idFront Image
-            console.log(`caught error :${e} while storing idfront image`);
-          }))
+        ? (doc.idFront = await idFrontImageUploader.uploadImage())
         : null;
       idBack != null
-        ? (doc.idBack = await getImageUrl(idBack).catch((e) => {
-            //==================== idBack Image
-            console.log(`caught error :${e} while storing id back image`);
-          }))
+        ? (doc.idBack = await idBackImageUploader.uploadImage())
         : null;
       doc
         .save()
