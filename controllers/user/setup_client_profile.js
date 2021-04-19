@@ -3,7 +3,8 @@ const { userRoles } = require("../../utilities");
 const ImageStorage = require("../../utilities/image_storage");
 
 exports.setupClientProfile = async (req, res) => {
-  const { userId, firstName, lastName, profileImage } = req.body;
+  const { userId, firstName, lastName} = req.body;
+  const profileImage = req.file;
   const imageStorage = new ImageStorage(profileImage);
   UserModal.findOneAndUpdate(
     { _id: userId },
