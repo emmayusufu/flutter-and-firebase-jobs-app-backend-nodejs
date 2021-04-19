@@ -7,8 +7,7 @@ exports.updateAccount = (req, res) => {
     qualification,
     specialities,
     profession,
-    client,
-    workman,
+    role,
     aboutSelf,
     startingFee,
     userId,
@@ -34,16 +33,15 @@ exports.updateAccount = (req, res) => {
       aboutSelf ? (doc.aboutSelf = aboutSelf) : null;
       startingFee ? (doc.startingFee = startingFee) : null;
       profession ? (doc.profession = profession) : null;
-      workman != null ? (doc.workman = JSON.parse(workman)) : null;
-      client != null ? (doc.client = JSON.parse(client)) : null;
+      role != null ? (doc.role = role) : null;
       // =========================================================================storing images
       profileImage != null
         ? (doc.profileImage = profileImageUploader.uploadImage())
         : null;
-      idFront != null
+        idFrontImage != null
         ? (doc.idFront = await idFrontImageUploader.uploadImage())
         : null;
-      idBack != null
+        idBackImage != null
         ? (doc.idBack = await idBackImageUploader.uploadImage())
         : null;
       doc
@@ -55,7 +53,7 @@ exports.updateAccount = (req, res) => {
           });
         })
         .catch((err) =>
-          console.log(`caught error: ${err} while updating user with id:${id}`)
+          console.log(err)
         );
     }
   });
