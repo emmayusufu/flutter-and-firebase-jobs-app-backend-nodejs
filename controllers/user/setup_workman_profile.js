@@ -1,5 +1,7 @@
+// noinspection DuplicatedCode
+
 const { UserModal } = require("../../models");
-const { userRoles } = require("../../utilities");
+const { userRoles } = require("../../utilities/constants");
 const ImageStorage = require("../../utilities/image_storage");
 
 exports.setupWorkManProfile = async (req,res) => {
@@ -7,7 +9,7 @@ exports.setupWorkManProfile = async (req,res) => {
     userId,
     firstName,
     lastName,
-    areaOfOperation,
+    regionOfOperation,
     dob,
     qualification,
     specialities,
@@ -17,9 +19,9 @@ exports.setupWorkManProfile = async (req,res) => {
     startingFee,
   } = req.body;
 
-  const profileImage = req.files.find((e) => e.fieldname == "profileImage");
-  const idFrontImage = req.files.find((e) => e.fieldname == "idFrontImage");
-  const idBackImage = req.files.find((e) => e.fieldname == "idBackImage");
+  const profileImage = req.files.find((e) => e.fieldname === "profileImage");
+  const idFrontImage = req.files.find((e) => e.fieldname === "idFrontImage");
+  const idBackImage = req.files.find((e) => e.fieldname === "idBackImage");
 
 
   const profileImageUploader = new ImageStorage(profileImage);
@@ -31,7 +33,7 @@ exports.setupWorkManProfile = async (req,res) => {
     {
       firstName,
       lastName,
-      areaOfOperation,
+      regionOfOperation,
       dob,
       qualification,
       specialities,

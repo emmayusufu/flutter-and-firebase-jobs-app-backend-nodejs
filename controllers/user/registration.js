@@ -1,7 +1,7 @@
 const { UserModal } = require("../../models");
-const { generateOtp } = require("../../utilities/helper-functions");
+const { generateOtp } = require("../../utilities/helper_functions");
 const bcrypt = require("bcrypt");
-const { sms } = require("../../utilities/africastalking");
+const { sms } = require("../../config/africas_talking");
 
 exports.registration = (req,res) => {
   const { email, phoneNumber, password } = req.body;
@@ -30,7 +30,7 @@ exports.registration = (req,res) => {
                   sms
                     .send({
                       to: [result.phoneNumber],
-                      message: `Enter : ${result.otp} to verify your WorkManNow Account`,
+                      message: `Enter : ${result.otp} to verify your WorkManNow account`,
                     })
                     .then(() => {
                       res.json({

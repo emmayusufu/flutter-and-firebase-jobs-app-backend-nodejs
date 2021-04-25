@@ -1,6 +1,6 @@
 const sharp = require("sharp");
-const { imageDimensions } = require("../index");
-const { arrayToObject } = require("../helper_functions");
+const { imageDimensions } = require("./constants");
+const { arrayToObject } = require("./helper_functions");
 
 class ImageStorage {
   constructor(image) {
@@ -11,7 +11,7 @@ class ImageStorage {
     const image = this.image;
     return Promise.all(
       imageDimensions.map((dimension) => {
-        const path = `./uploads/${dimension.name}_${image.originalname}`;
+        const path = `./public/images/${dimension.name}_${image.originalname}`;
         return sharp(image.path)
           .resize(dimension.size)
           .toFile(path)
@@ -20,7 +20,7 @@ class ImageStorage {
             obj[dimension.name] = path;
             return obj;
           })
-          .catch((err) => console.log(err));
+          .catch((err) =>  new Error("failed to resize and store image"));
       })
     )
       .then((data) => {
@@ -28,7 +28,7 @@ class ImageStorage {
         const obj = arrayToObject(data);
         return JSON.stringify(obj);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => new Error("failed to complete"));
   }
 }
 

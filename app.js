@@ -1,45 +1,23 @@
 require("dotenv").config();
 const express = require("express");
-const http = require("http");
 const cors = require("cors");
-const mongoose = require("mongoose");
-const morgan = require("morgan");
+const logger = require("morgan");
 const path = require("path");
 
 const app = express();
-const server = http.createServer(app);
-const port = process.env.PORT;
+
+const userRoutes = require("./routes/user");
 
 app.use(cors());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
-app.use(morgan("short"));
+app.use(logger(`dev`));
 app.use(express.json());
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(express.urlencoded({extended: false}));
+app.use('/public',express.static(path.join(__dirname, 'public')));
 
-// =============================importing routes
-const routes = require("./routes");
+app.use('/api',userRoutes);
 
-// ============================using the imported routes
-app.use(routes);
-app.get("/", (req, res) => {
-  res.send("200");
-});
+app.use((req, res, next)=>{
+    res.status(404).send("route not found")
+})
 
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
-  .then(() => {
-    server.listen(port, () => {
-      console.log(`listening on http://localhost:${port}`);
-    });
-  })
-  .catch((e) => {
-    console.log(`caught error: ${e} when connecting to mongodb sever`);
-  });
+module.exports = app

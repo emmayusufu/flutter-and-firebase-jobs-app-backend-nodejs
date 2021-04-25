@@ -27,22 +27,22 @@
 
 const multer = require("multer")
 const fs = require("fs")
+const fsAsync = require("fs").promises
 
 exports.arrayToObject = (array) => {
   const object = {};
   for (let index = 0; index < array.length; index++) {
     const element = array[index];
     const key = Object.keys(element)[0];
-    const property = Object.values(element)[0];
-    object[key] = property;
+    object[key] = Object.values(element)[0];
   }
   return object;
 };
 exports.generateOtp = (length) => {
-  var result = "";
-  var characters = "0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
+  let result = "";
+  const characters = "0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
@@ -50,12 +50,18 @@ exports.generateOtp = (length) => {
 
 exports.multerFileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    if (!fs.existsSync("./uploads")) {
-      fs.mkdirSync("./uploads");
+    if (!fs.existsSync("./public/images")) {
+      fs.mkdirSync("./public/images");
     }
-    cb(null, "uploads");
+    cb(null, "public/images");
   },
   filename: (req, file, cb) => {
     cb(null, `${file.originalname}`);
   },
 });
+
+exports.deleteFile = (filePath)=>{
+  return fsAsync.unlink(filePath).catch((err)=>{
+    console.log(err)
+  })
+}

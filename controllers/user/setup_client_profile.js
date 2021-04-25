@@ -1,5 +1,5 @@
 const { UserModal } = require("../../models");
-const { userRoles } = require("../../utilities");
+const { userRoles } = require("../../utilities/constants");
 const ImageStorage = require("../../utilities/image_storage");
 
 exports.setupClientProfile = async (req, res) => {

@@ -1,6 +1,6 @@
 const { UserModal, HiringModal } = require("../../models");
-const { sms } = require("../../utilities/africastalking");
-const { db, msg } = require("../../utilities/firebase/admin_config");
+const { sms } = require("../../config/africas_talking");
+const { db, msg } = require("../../config/firebase");
 
 exports.hireWorkMan = (req, res) => {
   const { workmanID } = req.params;

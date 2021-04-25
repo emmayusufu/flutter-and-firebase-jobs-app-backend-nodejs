@@ -21,7 +21,7 @@ exports.login = (req,res) => {
           }
         });
       } else if (!user) {
-        res.json({ message: "phoneNumber_not_registered" });
+        res.json({ message: "user_not_found" });
       }
     }
   });
