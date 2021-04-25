@@ -1,6 +1,6 @@
 const sharp = require("sharp");
 const { imageDimensions } = require("../index");
-const { arrayToObject } = require("../helper-functions");
+const { arrayToObject } = require("../helper_functions");
 
 class ImageStorage {
   constructor(image) {
@@ -24,7 +24,7 @@ class ImageStorage {
       })
     )
       .then((data) => {
-        data.push({ original: image.path });
+        data.push({ original: `./${image.path}` });
         const obj = arrayToObject(data);
         return JSON.stringify(obj);
       })
