@@ -45,6 +45,7 @@ exports.setupWorkManProfile = async (req,res) => {
       idFrontImage: await idFrontImageUploader.uploadImage(),
       idBackImage: await idBackImageUploader.uploadImage(),
       role: userRoles.workman,
+      rating:0
     },
     { new: true, useFindAndModify: false },
     function (err, user) {

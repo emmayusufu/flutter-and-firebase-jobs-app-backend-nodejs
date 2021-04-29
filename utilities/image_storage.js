@@ -26,7 +26,7 @@ class ImageStorage {
       .then((data) => {
         data.push({ original: `./${image.path}` });
         const obj = arrayToObject(data);
-        return JSON.stringify(obj);
+        return obj;
       })
       .catch((err) => new Error("failed to complete"));
   }

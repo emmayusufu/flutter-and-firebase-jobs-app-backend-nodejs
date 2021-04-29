@@ -4,7 +4,7 @@ exports.userRoles = {
 };
 
 exports.imageDimensions = [
-  { name: "thumbnail", size: 156 },
+  { name: "thumbnail", size: 180 },
   { name: "small", size: 400 },
   { name: "medium", size: 600 },
   { name: "large", size: 800 },

@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const {Schema, model} = require("mongoose");
 const {userRoles} = require("../utilities/constants")
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
     firstName: String,
     lastName: String,
-    qualification: String,
+    qualification: [String],
     phoneNumber: {
         type: String,
         required: true,
@@ -16,18 +16,22 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+        select:false
     },
-    otp: String,
+    otp: {
+        type:String,
+        select:false
+    },
     account_valid: Boolean,
     profession: String,
     aboutSelf: String,
-    specialities: String,
+    specialities: [String],
     regionOfOperation: String,
     dob: String,
     nin: String,
-    profileImage: String,
-    idFrontImage: String,
-    idBackImage: String,
+    profileImage: Schema.Types.Mixed,
+    idFrontImage: Schema.Types.Mixed,
+    idBackImage: Schema.Types.Mixed,
     role: {
         type: String,
         enum: [userRoles.client, userRoles.workman],
@@ -37,4 +41,4 @@ const userSchema = new mongoose.Schema({
     startingFee: String,
 }, {timestamps: true});
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = model("User", userSchema);

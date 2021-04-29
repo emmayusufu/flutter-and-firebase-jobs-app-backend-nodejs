@@ -60,10 +60,9 @@ exports.updateAccount = (req, res) => {
               : null;
             doc
               .save()
-              .then((savedDoc) => {
+              .then(() => {
                 res.json({
                   message: "success",
-                  user: savedDoc,
                 });
               })
               .catch((err) =>
