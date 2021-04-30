@@ -11,7 +11,7 @@ exports.otpVerification = (req,res) => {
           UserModal.updateOne(
             { _id: user._id },
             { account_valid: true },
-            function (err, user2) {
+            function (err, doc) {
               res.json({
                 message: "success",
                 id: user._id,

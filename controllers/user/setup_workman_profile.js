@@ -4,7 +4,7 @@ const { UserModal } = require("../../models");
 const { userRoles } = require("../../utilities/constants");
 const ImageStorage = require("../../utilities/image_storage");
 
-exports.setupWorkManProfile = async (req,res) => {
+exports.setupWorkManProfile = async (req, res) => {
   const {
     userId,
     firstName,
@@ -23,7 +23,6 @@ exports.setupWorkManProfile = async (req,res) => {
   const idFrontImage = req.files.find((e) => e.fieldname === "idFrontImage");
   const idBackImage = req.files.find((e) => e.fieldname === "idBackImage");
 
-
   const profileImageUploader = new ImageStorage(profileImage);
   const idFrontImageUploader = new ImageStorage(idFrontImage);
   const idBackImageUploader = new ImageStorage(idBackImage);
@@ -35,8 +34,8 @@ exports.setupWorkManProfile = async (req,res) => {
       lastName,
       regionOfOperation,
       dob,
-      qualification,
-      specialities,
+      qualification: specialities.split(","),
+      specialities: specialities.split(","),
       nin,
       profession,
       aboutSelf,
@@ -45,15 +44,26 @@ exports.setupWorkManProfile = async (req,res) => {
       idFrontImage: await idFrontImageUploader.uploadImage(),
       idBackImage: await idBackImageUploader.uploadImage(),
       role: userRoles.workman,
-      rating:0
+      rating: 0,
     },
-    { new: true, useFindAndModify: false },
-    function (err, user) {
-      if (err) console.log(err);
-      res.json({
-        message: "success",
-        user: user,
+    { new: true }
+  ).exec((err, user) => {
+    if (err) {
+      new Error("something_went_wrong");
+      res.status(503).json({
+        message: "failed",
       });
+    } else if (!err) {
+      if (user) {
+        res.json({
+          message: "success",
+          user: user,
+        });
+      } else {
+        res.status(417).json({
+          message: "account_update_failed",
+        });
+      }
     }
-  );
+  });
 };

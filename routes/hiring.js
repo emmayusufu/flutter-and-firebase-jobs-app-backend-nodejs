@@ -8,7 +8,7 @@ const {completeHiring} = require('../controllers/hiring/complete_hiring')
 
 
 router.post("/hire_workman", hireWorkMan);
-router.get("/hirings", getHirings);
+router.get("/hirings/:userId", getHirings);
 router.post("/accept_hiring", acceptHiring);
 router.post("/decline_hiring", declineHiring);
 router.get("/complete_hiring", completeHiring);

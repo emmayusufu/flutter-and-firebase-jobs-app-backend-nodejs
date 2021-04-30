@@ -16,11 +16,9 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
-        select:false
     },
     otp: {
         type:String,
-        select:false
     },
     account_valid: Boolean,
     profession: String,
