@@ -3,7 +3,7 @@ const { generateOtp } = require("../../utilities/helper_functions");
 const bcrypt = require("bcrypt");
 const { sms } = require("../../config/africas_talking");
 
-exports.registration = (req,res) => {
+exports.registration = (req,res,next) => {
   const { email, phoneNumber, password } = req.body;
   UserModal.findOne(
     {
@@ -11,7 +11,7 @@ exports.registration = (req,res) => {
     },
     function (err, user) {
       if (err) {
-        res.status(503).json({err})
+        throw new Error(err)
       } else if (!err) {
         if (user) {
           res.json({ message: "phone_number_already_number_exists" });
@@ -39,11 +39,11 @@ exports.registration = (req,res) => {
                       });
                     })
                     .catch((error) => {
-                      new Error("caught error while sending sms")
+                      next(new Error(error))
                     });
                 })
                 .catch((e) => {
-                  new Error(`caught error while creating user account`);
+                  next(new Error(e))
                 });
             });
           });

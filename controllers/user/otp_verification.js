@@ -1,10 +1,10 @@
 const { UserModal } = require("../../models");
 
-exports.otpVerification = (req,res) => {
+exports.otpVerification = (req,res,next) => {
   const { otp, phoneNumber } = req.body;
   UserModal.findOne({ phoneNumber: phoneNumber }, function (err, user) {
     if (err) {
-      res.status(503).json({err})
+      throw new Error(err)
     } else if (!err) {
       if (user) {
         if (otp === user.otp) {

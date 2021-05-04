@@ -56,12 +56,18 @@ exports.multerFileStorage = multer.diskStorage({
     cb(null, "public/images");
   },
   filename: (req, file, cb) => {
-    cb(null, `${file.originalname}`);
+    fs.access('./public/images' + file.originalname, function(exists) {
+      let uploadedFileName;
+      if (exists) {
+          uploadedFileName = Date.now() + '.' + file.originalname;
+      } else {
+          uploadedFileName = file.originalname;
+      } 
+      cb(null, uploadedFileName)
+  });
   },
 });
 
-exports.deleteFile = (filePath)=>{
-  return fsAsync.unlink(filePath).catch((err)=>{
-    console.log(err)
-  })
+exports.deleteFile = async(filePath)=>{
+  return await fsAsync.unlink(filePath)
 }

@@ -2,11 +2,11 @@ const { UserModal } = require("../../models");
 const { userRoles } = require("../../utilities/constants");
 const ImageStorage = require("../../utilities/image_storage");
 
-exports.setupClientProfile = async (req, res) => {
-  const { userId, firstName, lastName} = req.body;
+exports.setupClientProfile = async (req, res, next) => {
+  const { userId, firstName, lastName } = req.body;
   const profileImage = req.file;
   const imageStorage = new ImageStorage(profileImage);
-  if(userId&&firstName&&lastName){
+  if (userId && firstName && lastName) {
     UserModal.findOneAndUpdate(
       { _id: userId },
       {
@@ -20,25 +20,22 @@ exports.setupClientProfile = async (req, res) => {
       },
       function (err, user) {
         if (err) {
-          new Error("something_went_wrong")
-          res.status(503).json({
-            message:"failed"
-          })
+          throw new Error(err);
         } else if (!err) {
-          if(user){
+          if (user) {
             res.json({
               message: "success",
               user: user,
             });
-          }else {
+          } else {
             res.status(417).json({
-              message:"account_update_failed"
-            })
+              message: "account_update_failed",
+            });
           }
         }
       }
     );
-  }else {
-    res.json({message:"missing_arguments"})
+  } else {
+    res.json({ message: "missing_arguments" });
   }
 };

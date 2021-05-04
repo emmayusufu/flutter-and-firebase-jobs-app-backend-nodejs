@@ -4,7 +4,7 @@ const { UserModal } = require("../../models");
 const { userRoles } = require("../../utilities/constants");
 const ImageStorage = require("../../utilities/image_storage");
 
-exports.setupWorkManProfile = async (req, res) => {
+exports.setupWorkManProfile = async (req, res, next) => {
   const {
     userId,
     firstName,
@@ -34,7 +34,7 @@ exports.setupWorkManProfile = async (req, res) => {
       lastName,
       regionOfOperation,
       dob,
-      qualification: specialities.split(","),
+      qualification: qualification.split(","),
       specialities: specialities.split(","),
       nin,
       profession,
@@ -44,15 +44,11 @@ exports.setupWorkManProfile = async (req, res) => {
       idFrontImage: await idFrontImageUploader.uploadImage(),
       idBackImage: await idBackImageUploader.uploadImage(),
       role: userRoles.workman,
-      rating: 0,
     },
     { new: true }
   ).exec((err, user) => {
     if (err) {
-      new Error("something_went_wrong");
-      res.status(503).json({
-        message: "failed",
-      });
+      throw new Error(err)
     } else if (!err) {
       if (user) {
         res.json({

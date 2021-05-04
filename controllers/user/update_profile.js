@@ -1,75 +1,72 @@
-const {UserModal} = require("../../models");
+const { UserModal } = require("../../models");
 const ImageStorage = require("../../utilities/image_storage");
-const {deleteFile} = require("../../utilities/helper_functions");
+const { deleteFile } = require("../../utilities/helper_functions");
 
-exports.updateProfile = (req, res) => {
-    const {
-        regionOfOperation,
-        qualification,
-        specialities,
-        profession,
-        role,
-        aboutSelf,
-        startingFee,
-        userId,
-        nin,
-    } = req.body;
+exports.updateProfile = (req, res, next) => {
+  const {
+    regionOfOperation,
+    qualification,
+    specialities,
+    profession,
+    role,
+    aboutSelf,
+    startingFee,
+    userId,
+    nin,
+    dob,
+  } = req.body;
 
-    const profileImage = req.files.find((e) => e.fieldname === "profileImage");
-    const idFrontImage = req.files.find((e) => e.fieldname === "idFrontImage");
-    const idBackImage = req.files.find((e) => e.fieldname === "idBackImage");
+  const profileImage = req.files.find((e) => e.fieldname === "profileImage");
+  const idFrontImage = req.files.find((e) => e.fieldname === "idFrontImage");
+  const idBackImage = req.files.find((e) => e.fieldname === "idBackImage");
 
-    const profileImageUploader = new ImageStorage(profileImage);
-    const idFrontImageUploader = new ImageStorage(idFrontImage);
-    const idBackImageUploader = new ImageStorage(idBackImage);
+  const profileImageUploader = new ImageStorage(profileImage);
+  const idFrontImageUploader = new ImageStorage(idFrontImage);
+  const idBackImageUploader = new ImageStorage(idBackImage);
 
-
-
-    UserModal.findById(userId, async function (err, doc) {
-        if (err) {
-            console.log(`caught error while finding user`);
-        } else {
-            if (profileImage) {
-                const arr = Object.values(doc.profileImage)
-                arr.map((e) => deleteFile(e))
-            }
-            if (idFrontImage) {
-                const arr = Object.values(doc.idFrontImage)
-                arr.map((e) => deleteFile(e))
-            }
-            if (idBackImage) {
-                const arr = Object.values(doc.idBackImage)
-                arr.map((e) => deleteFile(e))
-            }
-            nin ? (doc.nin = nin) : null;
-            dob ? (doc.dob = dob) : null;
-            regionOfOperation ? (doc.regionOfOperation = regionOfOperation) : null;
-            qualification ? (doc.qualification = qualification) : null;
-            specialities ? (doc.specialities = specialities) : null;
-            aboutSelf ? (doc.aboutSelf = aboutSelf) : null;
-            startingFee ? (doc.startingFee = startingFee) : null;
-            profession ? (doc.profession = profession) : null;
-            role != null ? (doc.role = role) : null;
-            // =========================================================================storing images
-            profileImage!==undefined
-              ? (doc.profileImage = await profileImageUploader.uploadImage())
-              : null;
-              idFrontImage!==undefined
-              ? (doc.idFront = await idFrontImageUploader.uploadImage())
-              : null;
-              idBackImage!==undefined
-              ? (doc.idBack = await idBackImageUploader.uploadImage())
-              : null;
-            doc
-              .save()
-              .then(() => {
-                res.json({
-                  message: "success",
-                });
-              })
-              .catch((err) =>
-                console.log(err)
-              );
-        }
-    });
+  UserModal.findById(userId, async function (err, doc) {
+    if (profileImage && doc.profileImage) {
+      const arr = Object.values(doc.profileImage);
+      Promise.all(arr.map((e) => deleteFile(e)));
+    }
+    if (idFrontImage && doc.idFrontImage) {
+      const arr = Object.values(doc.idFrontImage);
+      arr.map((e) => deleteFile(e));
+    }
+    if (idBackImage && doc.idBackImage) {
+      const arr = Object.values(doc.idBackImage);
+      arr.map((e) => deleteFile(e));
+    }
+    if (err) {
+      throw new Error(err)
+    } else {
+      nin ? (doc.nin = nin) : null;
+      dob ? (doc.dob = dob) : null;
+      regionOfOperation ? (doc.regionOfOperation = regionOfOperation) : null;
+      qualification ? (doc.qualification = qualification) : null;
+      specialities ? (doc.specialities = specialities) : null;
+      aboutSelf ? (doc.aboutSelf = aboutSelf) : null;
+      startingFee ? (doc.startingFee = startingFee) : null;
+      profession ? (doc.profession = profession) : null;
+      role ? (doc.role = role) : null;
+      profileImage
+        ? (doc.profileImage = await profileImageUploader.uploadImage())
+        : null;
+      idFrontImage
+        ? (doc.idFrontImage = await idFrontImageUploader.uploadImage())
+        : null;
+      idBackImage
+        ? (doc.idBackImage = await idBackImageUploader.uploadImage())
+        : null;
+      doc
+        .save()
+        .then((user) => {
+          res.json({
+            message: "success",
+            user
+          });
+        })
+        .catch((err) =>next(err));
+    }
+  });
 };

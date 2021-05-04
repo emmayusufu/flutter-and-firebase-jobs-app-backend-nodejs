@@ -2,7 +2,7 @@ const { UserModal } = require("../../models");
 const { sms } = require("../../config/africas_talking");
 const { db, msg } = require("../../config/firebase");
 
-exports.hireWorkMan = (req, res) => {
+exports.hireWorkMan = (req, res, next) => {
   const {
     clientId,
     workmanId,

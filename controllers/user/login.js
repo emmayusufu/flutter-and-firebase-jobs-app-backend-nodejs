@@ -1,15 +1,13 @@
 const { UserModal } = require("../../models");
 const bcrypt = require("bcrypt");
 
-exports.login = (req, res) => {
+exports.login = (req, res, next) => {
   const { phoneNumber, password } = req.body;
   UserModal.findOne({ phoneNumber })
-    .select(
-      "-otp -__v -nin -createdAt -updatedAt -idFrontImage -idBackImage"
-    )
+    .select("-otp -__v -nin -createdAt -updatedAt -idFrontImage -idBackImage")
     .exec((err, user) => {
       if (err) {
-        new Error('Caught error')
+        throw new Error(err)
       } else if (!err) {
         if (user) {
           bcrypt.compare(password, user.password, function (err, result) {
@@ -17,7 +15,7 @@ exports.login = (req, res) => {
               if (user.account_valid) {
                 res.json({
                   message: "success",
-                  user
+                  user,
                 });
               } else res.json({ message: "account_not_valid" });
             } else {
