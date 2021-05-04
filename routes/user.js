@@ -14,7 +14,7 @@ const {
 } = require("../controllers/user/setup_workman_profile");
 
 const {
-    updateAccount,
+    updateProfile,
 } = require("../controllers/user/update_profile");
 
 router.get("/user/:userId", getUser);
@@ -36,7 +36,7 @@ router.post(
 router.post(
   "/update_user_profile",
     multer({ storage: multerFileStorage }).any(),
-  updateAccount
+  updateProfile
 );
 
 

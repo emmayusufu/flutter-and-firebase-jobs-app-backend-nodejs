@@ -2,7 +2,7 @@ const {UserModal} = require("../../models");
 const ImageStorage = require("../../utilities/image_storage");
 const {deleteFile} = require("../../utilities/helper_functions");
 
-exports.updateAccount = (req, res) => {
+exports.updateProfile = (req, res) => {
     const {
         regionOfOperation,
         qualification,
@@ -24,23 +24,25 @@ exports.updateAccount = (req, res) => {
     const idBackImageUploader = new ImageStorage(idBackImage);
 
 
+
     UserModal.findById(userId, async function (err, doc) {
         if (err) {
             console.log(`caught error while finding user`);
         } else {
             if (profileImage) {
-                const arr = Object.values(JSON.parse(doc.profileImage))
+                const arr = Object.values(doc.profileImage)
                 arr.map((e) => deleteFile(e))
             }
             if (idFrontImage) {
-                const arr = Object.values(JSON.parse(doc.idFrontImage))
+                const arr = Object.values(doc.idFrontImage)
                 arr.map((e) => deleteFile(e))
             }
             if (idBackImage) {
-                const arr = Object.values(JSON.parse(doc.idBackImage))
+                const arr = Object.values(doc.idBackImage)
                 arr.map((e) => deleteFile(e))
             }
             nin ? (doc.nin = nin) : null;
+            dob ? (doc.dob = dob) : null;
             regionOfOperation ? (doc.regionOfOperation = regionOfOperation) : null;
             qualification ? (doc.qualification = qualification) : null;
             specialities ? (doc.specialities = specialities) : null;

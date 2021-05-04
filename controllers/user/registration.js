@@ -14,7 +14,7 @@ exports.registration = (req,res) => {
         res.status(503).json({err})
       } else if (!err) {
         if (user) {
-          res.json({ message: "phoneNumber_already_number_exists" });
+          res.json({ message: "phone_number_already_number_exists" });
         } else if (!user) {
           bcrypt.genSalt(12, function (err, salt) {
             bcrypt.hash(password, salt, function (err, hash) {
@@ -39,11 +39,11 @@ exports.registration = (req,res) => {
                       });
                     })
                     .catch((error) => {
-                      console.log(error);
+                      new Error("caught error while sending sms")
                     });
                 })
                 .catch((e) => {
-                  console.log(`caught error:${e} while creating user account`);
+                  new Error(`caught error while creating user account`);
                 });
             });
           });

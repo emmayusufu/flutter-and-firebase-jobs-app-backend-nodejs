@@ -23,25 +23,28 @@ exports.getUsers = (req, res) => {
   if (query.fields) {
     const fields = query.fields.replace(/,/g, " ");
     const role = query.role;
+    const userId = query.userId;
     UserModal.find(
       {
         role: role,
+        _id:{$ne:userId}
       },
-      fields,
-      function (err, docs) {
-        if (err) {
-          res.status(503).json({ message: `error ${err}` });
-        } else if (!err) {
-          if (docs) {
-            res.json(docs);
-          } else if (!docs) {
-            res.json({ message: "no_users_found" });
-          }
+    ).select(fields).exec((err, docs)=>{
+      if (err) {
+        res.status(503).json({ message: 'failed' });
+      } else if (!err) {
+        if (docs) {
+          res.json({
+            users:docs,
+            message:"success"
+          });
+        } else if (!docs) {
+          res.json({ message: "no_users_found" });
         }
       }
-    );
+    });
   } else {
-    res.status(403).json();
+    res.status(403).json({message:"failed"});
   }
 };
 

@@ -5,7 +5,7 @@ exports.login = (req, res) => {
   const { phoneNumber, password } = req.body;
   UserModal.findOne({ phoneNumber })
     .select(
-      "-password -otp -account_valid -__v -nin -createdAt -updatedAt -idFrontImage -idBackImage"
+      "-otp -__v -nin -createdAt -updatedAt -idFrontImage -idBackImage"
     )
     .exec((err, user) => {
       if (err) {
