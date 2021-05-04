@@ -34,8 +34,8 @@ exports.setupWorkManProfile = async (req, res, next) => {
       lastName,
       regionOfOperation,
       dob,
-      qualification: qualification.split(","),
-      specialities: specialities.split(","),
+      qualification,
+      specialities,
       nin,
       profession,
       aboutSelf,
@@ -45,21 +45,16 @@ exports.setupWorkManProfile = async (req, res, next) => {
       idBackImage: await idBackImageUploader.uploadImage(),
       role: userRoles.workman,
     },
-    { new: true }
-  ).exec((err, user) => {
-    if (err) {
-      throw new Error(err)
-    } else if (!err) {
-      if (user) {
-        res.json({
-          message: "success",
-          user: user,
-        });
-      } else {
-        res.status(417).json({
-          message: "account_update_failed",
-        });
-      }
+    { new: true }).then((user)=>{
+    if (user) {
+      res.json({
+        message: "success",
+        user: user,
+      });
+    } else {
+      res.status(417).json({
+        message: "account_update_failed",
+      });
     }
-  });
+  }).catch((err)=>next(err));
 };

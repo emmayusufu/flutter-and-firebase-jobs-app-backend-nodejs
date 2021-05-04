@@ -13,7 +13,7 @@ new DB().connectToDB()
             console.log(`listening on http://localhost:${port}`);
         });
     }) 
-    .catch((e) => {
-        console.log(`caught error: ${e} when connecting to mongodb sever`);
+    .catch((error) => {
+        new Error(error)
     });
 
