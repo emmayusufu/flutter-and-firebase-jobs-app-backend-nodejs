@@ -8,8 +8,8 @@ exports.hireWorkMan = (req, res, next) => {
     workmanId,
     description,
     clientName,
-    location,
-    clientContact,
+    // location,
+    clientPhoneNumber,
     clientImage,
   } = req.body;
 
@@ -45,8 +45,8 @@ exports.hireWorkMan = (req, res, next) => {
         .add({
           description,
           clientName,
-          location,
-          clientContact,
+          // location,
+          clientPhoneNumber,
           clientId,
           workmanId,
           clientImage,

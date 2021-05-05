@@ -25,6 +25,7 @@ const userSchema = new Schema({
     aboutSelf: String,
     specialities: [String],
     regionOfOperation: String,
+    online:true,
     dob: String,
     nin: String,
     profileImage: Schema.Types.Mixed,
