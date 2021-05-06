@@ -1,51 +1,64 @@
 const { HiringModal } = require("../../models");
-const { db } = require("../../config/firebase");
+const { db, msg } = require("../../config/firebase");
+const { hiringStatus } = require("../../utilities/constants");
 
-exports.declineHiring = (req, res) => {
+exports.declineHiring = (req, res, next) => {
   const { docRef } = req.body;
 
-  const array = docRef.split("/");
-
-  const ref = db
-    .collection(array[0])
-    .doc(array[1])
-    .collection(array[2])
-    .doc(array[3]);
+  const ref = db.collection("hirings");
+  doc(docRef);
 
   ref
     .get()
     .then((data) => {
-      const {
-        clientID,
-        workmanID,
-        location,
-        contact,
-        clienImage,
-        clientName,
-        description,
-      } = data.data();
+      const { clientId, workManId, location, description } = data.data();
 
       const hiring = new HiringModal({
-        clientID,
-        workmanID,
+        clientId,
+        workManId,
         description,
-        clientName,
         clientLocation: location,
-        clientContact: contact,
-        clientImage: clienImage,
-        declined: true,
+        hiringStatus: hiringStatus.cancelled,
       });
 
       hiring
         .save()
         .then(() => {
-          ref.delete().then(function () {
-            res.json({ message: "success" });
-          });
+          ref
+            .delete()
+            .then(function () {
+              db.collection(userTokens)
+                .doc(req.body.workManId)
+                .get()
+                .then((snapshot) => {
+                  if (snapshot.exists) {
+                    const { tokens } = snapshot.data();
+                    msg
+                      .sendToDevice(
+                        tokens,
+                        {
+                          data: {
+                            message: "declined",
+                          },
+                        },
+                        {
+                          contentAvailable: true,
+                          priority: "high",
+                        }
+                      )
+                      .then(() => {
+                        res.json({ message: "success" });
+                      })
+                      .catch((err) => next(new Error()));
+                  }
+                })
+                .catch((err) => next(new Error(err)));
+            })
+            .catch((err) => next(new Error(err)));
         })
         .catch((err) => {
-          console.log(`caught error :${err} while saving hire`);
+          next(new Error(err));
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => next(new Error(err)));
 };

@@ -26,7 +26,7 @@ exports.getUsers = (req, res, next) => {
     const userId = query.userId;
     UserModal.find({
       role: role,
-      _id: { $ne: userId },
+      // _id: { $ne: userId },
     })
       .select(fields)
       .exec((err, docs) => {

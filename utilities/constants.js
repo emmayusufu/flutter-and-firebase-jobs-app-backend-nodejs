@@ -3,6 +3,12 @@ exports.userRoles = {
   client: "client",
 };
 
+exports.hiringStatus = {
+  pending: "pending",
+  complete: "complete",
+  cancelled: "cancelled",
+};
+
 exports.imageDimensions = [
   { name: "thumbnail", size: 180 },
   { name: "small", size: 400 },

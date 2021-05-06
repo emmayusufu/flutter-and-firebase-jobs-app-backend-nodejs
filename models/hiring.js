@@ -1,27 +1,18 @@
 const mongoose = require("mongoose");
+const {hiringStatus} = require("../utilities/constants")
 
 const HiringSchema = new mongoose.Schema({
-    clientId: String,
-    workManId: String,
-    clientName: String,
-    clientImage: String,
+    client: String,
+    workMan: String,
     clientLocation: String,
-    clientContact: String,
     description: String,
-    completed: {
-        type: Boolean,
+    hiringStatus:  {
+        type: String,
+        enum: [hiringStatus.complete, hiringStatus.pending],
     },
     review: String,
-    workManRating: {
-        type: Number,
-        default: 0,
-    },
-    accepted: {
-        type: Boolean,
-    },
-    declined: {
-        type: Boolean,
-    },
+    workManRating:Number,
+    clientRating:Number,
 }, {timestamps: true,});
 
 module.exports = mongoose.model("Hiring", HiringSchema);
