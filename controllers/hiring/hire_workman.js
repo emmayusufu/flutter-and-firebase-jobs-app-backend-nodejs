@@ -15,7 +15,7 @@ exports.hireWorkMan = (req, res, next) => {
   sms
     .send({
       to: [workManPhoneNumber],
-      message: `You currently have a pending hire, kindly go online and accept or decline the hire else hire will be cancelled automatically in the next 1 minute`,
+      message: `You currently have a pending hire, kindly accept or decline the hire else hire will be cancelled automatically shortly`,
     })
     .catch((err) => {
       next(new Error(err));
@@ -28,7 +28,7 @@ exports.hireWorkMan = (req, res, next) => {
       clientPhoneNumber,
       clientId,
       workManId,
-      clientImage: JSON.parse(clientImage),
+      clientImage:clientImage,
       accepted: false,
       createdAt: Date.now(),
     })
@@ -57,7 +57,6 @@ exports.hireWorkMan = (req, res, next) => {
                 }
               )
               .then(() => {
-                console.log(doc);
                 res.json({ message: "ok" });
               })
               .then(() => {

@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const {hiringStatus} = require("../utilities/constants")
 
 const HiringSchema = new mongoose.Schema({
-    client: String,
-    workMan: String,
+    clientId: String,
+    workManId: String,
     clientLocation: String,
     description: String,
     hiringStatus:  {

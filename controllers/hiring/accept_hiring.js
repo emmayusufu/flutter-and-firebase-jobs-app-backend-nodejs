@@ -1,9 +1,10 @@
-const { db,} = require("../../config/firebase");
+const { db } = require("../../config/firebase");
 
 exports.acceptHiring = (req, res, next) => {
-  const { docRef } = req.body;
+  const docRef = req.body.docRef.split("/")[1];
 
-  db.collection("hirings").doc(docRef)
+  db.collection("hirings")
+    .doc(docRef)
     .update({
       accepted: true,
     })
