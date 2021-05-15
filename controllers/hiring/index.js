@@ -1,7 +1,21 @@
-const { HiringModal} = require("../../models");
+const { HiringModal } = require("../../models");
 
 exports.getHirings = (req, res) => {
-  
- HiringModal.find().exec((err,docs)=>{})
+  const { workManId, clientId } = req.query;
+  HiringModal.find(
+    {
+      workManId: workManId,
+      clientId: clientId,
+    },
+    (err, hirings) => {
+      if (err) {
+        throw new Error("failed to find hirings");
+      } else if (!err) {
+        res.json({
+          message: success,
+          hirings: hirings,
+        });
+      }
+    }
+  );
 };
-
