@@ -1,13 +1,15 @@
 const { UserModal } = require("../../models");
 
-exports.getProfessions = (req,res,next)=>{
-  UserModal.find().select({profession:1}).exec((err,docs)=>{
-    if(err) throw new Error(err)
-    res.json({professions:docs});
-  })
-}
+exports.getProfessions = (req, res) => {
+  UserModal.find()
+    .select({ profession: 1 })
+    .exec((err, docs) => {
+      if (err) throw new Error(err.message);
+      res.json({ professions: docs });
+    });
+};
 
-exports.getUser = (req, res, next) => {
+exports.getUser = (req, res) => {
   const query = req.query;
   const { userId } = req.params;
   const fields = query.fields.replace(/,/g, " ");
@@ -17,7 +19,7 @@ exports.getUser = (req, res, next) => {
       throw new Error(err);
     } else {
       if (doc) {
-        res.json({user:doc});
+        res.json({ user: doc });
       } else if (!doc) {
         res.json({ message: "user_does_not_exist" });
       }
@@ -25,23 +27,26 @@ exports.getUser = (req, res, next) => {
   });
 };
 
-exports.getUsers = (req, res, next) => {
+exports.getUsers = async (req, res, next) => {
   const query = req.query;
-  if (query.fields) {
+  try {
     const fields = query.fields.replace(/,/g, " ");
-    const role = query.role;
-    const userId = query.userId;
+    const { role, userId, profession } = req.query;
+    const limit = parseInt(query.limit);
     UserModal.find({
       role: role,
+      profession:profession === 'null' ? { $ne: null } : profession,
       _id: { $ne: userId },
     })
       .select(fields)
+      .limit(limit)
       .exec((err, docs) => {
         if (err) {
-          throw new Error(err);
+          throw new Error(err.message);
         } else if (!err) {
           if (docs) {
             res.json({
+              count:docs.length,
               users: docs,
               message: "success",
             });
@@ -50,7 +55,7 @@ exports.getUsers = (req, res, next) => {
           }
         }
       });
-  } else {
-    res.status(403).json({ message: "failed" });
+  } catch (err) {
+    next(new Error(err));
   }
 };

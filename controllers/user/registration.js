@@ -1,6 +1,6 @@
 const { UserModal } = require("../../models");
-const { generateOtp } = require("../../utilities/helper_functions");
 const bcrypt = require("bcrypt");
+const Helpers = require("../../utilities/helpers");
 const { sms } = require("../../config/africas_talking");
 
 exports.registration = (req,res,next) => {
@@ -23,7 +23,7 @@ exports.registration = (req,res,next) => {
                 phoneNumber,
                 password: hash,
                 account_valid:false,
-                otp: generateOtp(5),
+                otp: Helpers.generateOtp(5),
               })
                 .save()
                 .then((result) => {

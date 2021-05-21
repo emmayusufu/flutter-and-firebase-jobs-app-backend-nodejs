@@ -1,6 +1,6 @@
 const { UserModal } = require("../../models");
 const ImageStorage = require("../../utilities/image_storage");
-const { deleteFile } = require("../../utilities/helper_functions");
+const Helpers = require("../../utilities/helpers");
 
 exports.updateProfile = (req, res, next) => {
   const {
@@ -27,15 +27,15 @@ exports.updateProfile = (req, res, next) => {
   UserModal.findById(userId, async function (err, doc) {
     if (profileImage && doc.profileImage) {
       const arr = Object.values(doc.profileImage);
-      Promise.all(arr.map((e) => deleteFile(e)));
+      await Promise.all(arr.map((e) => Helpers.deleteFile(e)));
     }
     if (idFrontImage && doc.idFrontImage) {
       const arr = Object.values(doc.idFrontImage);
-      arr.map((e) => deleteFile(e));
+      arr.map((e) => Helpers.deleteFile(e));
     }
     if (idBackImage && doc.idBackImage) {
       const arr = Object.values(doc.idBackImage);
-      arr.map((e) => deleteFile(e));
+      arr.map((e) => Helpers.deleteFile(e));
     }
     if (err) {
       throw new Error(err)

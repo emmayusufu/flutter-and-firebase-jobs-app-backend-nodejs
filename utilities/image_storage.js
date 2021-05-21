@@ -1,11 +1,14 @@
 const sharp = require("sharp");
+const Helpers = require("./helpers");
 const { imageDimensions } = require("./constants");
-const { arrayToObject } = require("./helper_functions");
 
-class ImageStorage {
+class ImageStorage extends Helpers{
   constructor(image) {
-    this.image = image;
+      super();
+      this.image = image;
+      // this.next =next
   }
+
 
   uploadImage() {
     const image = this.image;
@@ -20,15 +23,14 @@ class ImageStorage {
             obj[dimension.name] = path;
             return obj;
           })
-          .catch((err) =>  new Error("failed to resize and store image"));
+          .catch((err) =>  new Error(err));
       })
     )
       .then((data) => {
         data.push({ original: `./${image.path}` });
-        const obj = arrayToObject(data);
-        return obj;
+          return super.arrayToObject(data);
       })
-      .catch((err) => new Error("failed to complete"));
+      .catch((err) => new Error(err));
   }
 }
 

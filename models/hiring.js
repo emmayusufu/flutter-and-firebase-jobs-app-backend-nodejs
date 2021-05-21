@@ -12,7 +12,6 @@ const HiringSchema = new mongoose.Schema({
     },
     review: String,
     workManRating:Number,
-    clientRating:Number,
 }, {timestamps: true,});
 
 module.exports = mongoose.model("Hiring", HiringSchema);

@@ -57,21 +57,21 @@ exports.hireWorkMan = (req, res, next) => {
                 }
               )
               .then(() => {
-                res.json({ message: "ok" });
+                res.json({ message: "success" });
               })
               .then(() => {
                 setTimeout(() => {
                   db.collection("hirings")
-                    .doc(doc.path)
+                    .doc(doc.path.split('/')[1])
                     .get()
                     .then((data) => {
                       const { accepted } = data.data();
-                      db.collection("userData")
+                      db.collection("userTokens")
                         .doc(clientId)
                         .get()
                         .then((clientTokens) => {
                           const { tokens } = clientTokens.data();
-                          if (accepted == false) {
+                          if (accepted === false) {
                             msg
                               .sendToDevice(
                                 tokens,
@@ -85,10 +85,10 @@ exports.hireWorkMan = (req, res, next) => {
                                   priority: "high",
                                 }
                               )
-                              .then(() => {
-                                db.collection("hirings").doc(doc.path).delete();
+                              .then(async() => {
+                                await db.collection("hirings").doc(doc.path.split('/')[1]).delete();
                               });
-                          } else if (accepted == true) {
+                          } else if (accepted === true) {
                             msg.sendToDevice(
                               tokens,
                               {
@@ -100,14 +100,14 @@ exports.hireWorkMan = (req, res, next) => {
                                 contentAvailable: true,
                                 priority: "high",
                               }
-                            );
+                            ).catch((e)=>next(new Error(e)));
                           }
                         });
                     })
                     .catch((err) => {
                       next(err);
                     });
-                }, 30000);
+                }, 5000);
               })
               .catch((err) => next(err));
           } else {
